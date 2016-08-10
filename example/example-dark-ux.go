@@ -35,7 +35,7 @@ func onDelete() {
 func onLoop() {
 	g5.PushView(w,h)
 
-	g5.Clear(.4,.4,.4, 1.0)
+	g5.Clear(.33,.33,.33, 1.0)
 
 	//w, h := 320, 240; ctx.BeginFrame(w,h, 4);
 	w, h := 640, 480; ux.Ctx.BeginFrame(w,h, 2);

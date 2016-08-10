@@ -1,6 +1,8 @@
 package go_dark_ux
 
-import "github.com/amortaza/go-ux"
+import (
+	"github.com/amortaza/go-ux"
+)
 
 var button_default *ux.Entity
 var button_pressed *ux.Entity
