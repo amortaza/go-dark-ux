@@ -47,14 +47,15 @@ func div() {
 		bl.Id(buttonId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
+			//fmt.Println("node ",node.Id, " ", node.Left, node.Top, node.Width, node.Height)
 			if state.IsDisabled {
-				go_dark_ux.DrawButtonDisabled(node.Left, node.Top, node.Width, node.Height, state.Label_)
+				go_dark_ux.DrawButtonDisabled(0, 0, node.Width, node.Height, state.Label_)
 
 			} else if state.IsDown {
-				go_dark_ux.DrawButtonPressed(node.Left,  node.Top, node.Width, node.Height, state.Label_)
+				go_dark_ux.DrawButtonPressed(0,  0, node.Width, node.Height, state.Label_)
 
 			} else {
-				go_dark_ux.DrawButtonDefault(node.Left,  node.Top, node.Width, node.Height, state.Label_)
+				go_dark_ux.DrawButtonDefault(0,  0, node.Width, node.Height, state.Label_)
 			}
 
 		}, false)
