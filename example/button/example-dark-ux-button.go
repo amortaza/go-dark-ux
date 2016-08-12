@@ -12,43 +12,28 @@ import (
 func initialize() {
 	go_dark_ux.Init()
 }
-var x int
+var x int = 10
 func tick() {
 
 	bl.Root()
 	{
 		bl.Pos(0,0)
-		bl.Dim(800, 600)
+		bl.Dim(640, 480)
 
 		bl.Div()
 		{
 			bl.Id("red")
-			bl.Pos(10,10)
-			bl.Dim(640,480)
-			bl.Div()
-			{
-				bl.Id("green")
-				bl.Pos(10,10)
-				bl.Dim(300,200)
+			bl.Pos(x,10)
+			bl.Dim(320,240)
 
-				button.Id("1").Label("Wusup").Left(10).Top(30).Width(110).Height(30)
-				button.OnClick(func() {
-					fmt.Println("clicked")
-				})
-				button.End()
+			button.Id("1").Label("Hi!").Left(x).Top(10).Width(160).Height(60)
+			button.OnClick(func(state *button.State) {
+				fmt.Println("clicked")
+				//state.IsEnabled = false
+			})
+			button.End()
 
-				//bl.Div()
-				//{
-				//	bl.Id("blue")
-				//	bl.Pos(x,10)
-				//	bl.Dim(100,100)
-				//
-				//
-				//	x += 1
-				//}
-				//bl.End()
-			}
-			bl.End()
+			//x += 3
 		}
 		bl.End()
 	}

@@ -7,16 +7,16 @@ import (
 )
 
 type State struct {
-	ButtonId string
-	IsHover  bool
-	IsDown   bool
-	IsDisabled	bool
+	ButtonId                     string
+	IsHover                      bool
+	IsDown                       bool
+	IsEnabled                    bool
 
-	Label_   string
+	Label_                       string
 
 	Left_, Top_, Width_, Height_ int
 
-	OnClick func()
+	OnClick                      func(*State)
 }
 
 // Shared variable across Div()/End()
@@ -48,7 +48,7 @@ func div() {
 
 		bl.CustomRenderer(func(node *bl.Node) {
 			//fmt.Println("node ",node.Id, " ", node.Left, node.Top, node.Width, node.Height)
-			if state.IsDisabled {
+			if !state.IsEnabled {
 				go_dark_ux.DrawButtonDisabled(0, 0, node.Width, node.Height, state.Label_)
 
 			} else if state.IsDown {
@@ -98,7 +98,7 @@ func (s *State) End() (*State){
 	return s
 }
 
-func OnClick(cb func()) {
+func OnClick(cb func(*State)) {
 
 	gCurState.OnClick = cb
 }
@@ -123,14 +123,10 @@ func End() {
 
 		// click
 		func(i interface{}) {
-			if state.IsDisabled {
-				return
-			}
-
 			state.IsDown = false
 
-			if state.OnClick != nil {
-				state.OnClick()
+			if state.IsEnabled && state.OnClick != nil {
+				state.OnClick(state)
 			}
 		},
 
