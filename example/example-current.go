@@ -6,6 +6,7 @@ import (
 	"github.com/amortaza/go-bellina"
 	"github.com/amortaza/go-hal-oob"
 	"github.com/amortaza/go-dark-ux"
+	"github.com/amortaza/go-dark-ux/checkbox"
 	"github.com/amortaza/go-dark-ux/button"
 )
 
@@ -26,15 +27,15 @@ func tick() {
 			bl.Pos(x,10)
 			bl.Dim(320,240)
 
-			button.Id("1").Label("Hi!").Left(x).Top(10).Width(160).Height(60)
-			button.OnClick(func() {
-				fmt.Println("clicked")
+			checkbox.Id("mycheckbox").Label("Hi!").Left(x).Top(10).Width(160).Height(60)
+			checkbox.OnClick(func() {
+				fmt.Println("checkbox clicked")
 			})
-			button.End()
+			checkbox.End()
 
-			button.Id("2").Label("Bye!").Left(x).Top(90).Width(160).Height(60)
+			button.Id("mybutton").Label("Bye!").Left(x).Top(90).Width(160).Height(60)
 			button.OnClick(func() {
-				fmt.Println("clicked")
+				fmt.Println("button clicked")
 			})
 			button.End()
 

@@ -33,19 +33,12 @@ func onDelete() {
 }
 
 func onLoop() {
-	g5.PushView(w,h)
+	g5.PushView(w/2,h/2)
 
 	g5.Clear(.33,.33,.33, 1.0)
 
-	//w, h := 320, 240; ctx.BeginFrame(w,h, 4);
-	w, h := 640, 480; ux.Ctx.BeginFrame(w,h, 2);
-	//w, h := 1280, 960; ctx.BeginFrame(w,h, 1);
-
-	go_dark_ux.DrawButtonDefault(10, 10, 95, 30, "OK")
-	go_dark_ux.DrawButtonPressed(10, 50, 95, 30, "OK")
-	go_dark_ux.DrawButtonDisabled(10, 90, 95, 30, "OK")
-
-	ux.Ctx.EndFrame()
+	go_dark_ux.DrawButton_Default(10, 10, 95, 30, "OK")
+	//go_dark_ux.DrawCheckbox_Unchecked_Enabled(10, 10, 95, 30, "OK")
 
 	g5.PopView()
 

@@ -1,4 +1,4 @@
-package button
+package checkbox
 
 import (
 	"github.com/amortaza/go-bellina-plugins/click"
@@ -7,9 +7,8 @@ import (
 )
 
 type State struct {
-	ButtonId                     string
-	IsHover                      bool
-	IsDown                       bool
+	CheckboxId                   string
+	IsChecked                    bool
 	IsEnabled                    bool
 
 	Label_                       string
@@ -22,8 +21,8 @@ type State struct {
 // Shared variable across Div()/End()
 var gCurState *State
 
-func Id(postfixButtonId string) *State {
-	buttonId := bl.Current_Node.Id + "/" + postfixButtonId
+func Id(postfixCheckboxId string) *State {
+	buttonId := bl.Current_Node.Id + "/" + postfixCheckboxId
 
 	gCurState = ensureState(buttonId)
 
@@ -39,23 +38,29 @@ func (s *State) On(cb func(interface{})) {
 
 func div() {
 
-	buttonId := gCurState.ButtonId
+	checkboxId := gCurState.CheckboxId
+
+	//fmt.Println("checkbox Id " + checkboxId)
 	state := gCurState
 
 	bl.Div()
 	{
-		bl.Id(buttonId)
+		bl.Id(checkboxId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
-			//fmt.Println("node ",node.Id, " ", node.Left, node.Top, node.Width, node.Height)
-			if !state.IsEnabled {
-				go_dark_ux.DrawButton_Disabled(0, 0, node.Width, node.Height, state.Label_)
-
-			} else if state.IsDown {
-				go_dark_ux.DrawButton_Pressed(0,  0, node.Width, node.Height, state.Label_)
+			if state.IsChecked {
+				if state.IsEnabled {
+					go_dark_ux.DrawCheckbox_Checked_Enabled(0, 0, node.Width, node.Height, state.Label_)
+				} else {
+					go_dark_ux.DrawCheckbox_Checked_Disabled(0, 0, node.Width, node.Height, state.Label_)
+				}
 
 			} else {
-				go_dark_ux.DrawButton_Default(0,  0, node.Width, node.Height, state.Label_)
+				if state.IsEnabled {
+					go_dark_ux.DrawCheckbox_Unchecked_Enabled(0, 0, node.Width, node.Height, state.Label_)
+				} else {
+					go_dark_ux.DrawCheckbox_Unchecked_Disabled(0, 0, node.Width, node.Height, state.Label_)
+				}
 			}
 
 		}, false)
@@ -107,23 +112,11 @@ func End() {
 
 	state := gCurState
 
-/*	hover.On(func(i interface{}){
-		e := i.(*hover.Event)
-
-		if e.IsInEvent {
-			state.IsHover = true
-		} else {
-			state.IsHover = false
-		}
-	})*/
-
-	//fmt.Println(state.Left_, state.Top_, state.Width_, state.Height_)
-
 	click.On2(
 
 		// click
 		func(i interface{}) {
-			state.IsDown = false
+			state.IsChecked = !state.IsChecked
 
 			if state.IsEnabled && state.OnClick != nil {
 				state.OnClick()
@@ -132,12 +125,10 @@ func End() {
 
 		// on down
 		func(i interface{}) {
-			state.IsDown = true
 		},
 
 		// on miss
 		func(i interface{}) {
-			state.IsDown = false
 		} )
 
 	bl.Pos(state.Left_, state.Top_)
