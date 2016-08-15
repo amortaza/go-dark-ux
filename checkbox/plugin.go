@@ -1,6 +1,8 @@
 package checkbox
 
-import "github.com/amortaza/go-bellina"
+import (
+	"github.com/amortaza/go-bellina"
+)
 
 var plugin *Plugin
 

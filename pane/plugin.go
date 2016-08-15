@@ -1,7 +1,8 @@
-package button
+package pane
 
 import (
 	"github.com/amortaza/go-bellina"
+	"fmt"
 )
 
 var plugin *Plugin
@@ -10,10 +11,11 @@ type Plugin struct {
 }
 
 func (c *Plugin) Name() string {
-	return "button"
+	return "pane"
 }
 
 func (c *Plugin) Init() {
+	fmt.Println("pane plugin Init is being called")
 	gStateByNode = make(map[string] *State)
 }
 
