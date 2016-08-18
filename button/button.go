@@ -55,7 +55,7 @@ func div() {
 				go_dark_ux.DrawButton_Pressed(0,  0, node.Width, node.Height, state.Label_)
 
 			} else {
-				go_dark_ux.DrawButton_Default(0,  0, node.Width, node.Height, state.Label_)
+				go_dark_ux.DrawButton(0,  0, node.Width, node.Height, state.Label_)
 			}
 
 		}, false)

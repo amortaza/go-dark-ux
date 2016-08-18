@@ -41,7 +41,7 @@ func onLoop() {
 	w, h := 640, 480; ux.Ctx.BeginFrame(w,h, 2);
 	//w, h := 1280, 960; ctx.BeginFrame(w,h, 1);
 
-	go_dark_ux.DrawButton_Default(10, 10, 95, 30, "OK")
+	go_dark_ux.DrawButton(10, 10, 95, 30, "OK")
 	go_dark_ux.DrawButton_Pressed(10, 50, 95, 30, "OK")
 	go_dark_ux.DrawButton_Disabled(10, 90, 95, 30, "OK")
 

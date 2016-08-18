@@ -1,4 +1,4 @@
-package checkbox
+package radiobox
 
 import (
 	"github.com/amortaza/go-bellina-plugins/click"
@@ -7,7 +7,7 @@ import (
 )
 
 type State struct {
-	CheckboxId                   string
+	RadioboxId                   string
 	IsChecked                    bool
 	IsEnabled                    bool
 
@@ -21,8 +21,8 @@ type State struct {
 // Shared variable across Div()/End()
 var gCurState *State
 
-func Id(postfixCheckboxId string) *State {
-	buttonId := bl.Current_Node.Id + "/" + postfixCheckboxId
+func Id(postfixRadioboxId string) *State {
+	buttonId := bl.Current_Node.Id + "/" + postfixRadioboxId
 
 	gCurState = ensureState(buttonId)
 
@@ -38,28 +38,29 @@ func (s *State) On(cb func(interface{})) {
 
 func div() {
 
-	checkboxId := gCurState.CheckboxId
+	radioboxId := gCurState.RadioboxId
 
 	//fmt.Println("checkbox Id " + checkboxId)
 	state := gCurState
 
 	bl.Div()
 	{
-		bl.Id(checkboxId)
+		bl.Id(radioboxId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
+
 			if state.IsChecked {
 				if state.IsEnabled {
-					go_dark_ux.DrawCheckbox_Checked(0, 0, node.Width, node.Height, state.Label_)
+					go_dark_ux.DrawRadiobox_Checked(0, 0, node.Width, node.Height, state.Label_)
 				} else {
-					go_dark_ux.DrawCheckbox_Checked_Disabled(0, 0, node.Width, node.Height, state.Label_)
+					//go_dark_ux.DrawCheckbox_Checked_Disabled(0, 0, node.Width, node.Height, state.Label_)
 				}
 
 			} else {
 				if state.IsEnabled {
-					go_dark_ux.DrawCheckbox_Unchecked(0, 0, node.Width, node.Height, state.Label_)
+					go_dark_ux.DrawRadiobox_Unchecked(0, 0, node.Width, node.Height, state.Label_)
 				} else {
-					go_dark_ux.DrawCheckbox_Unchecked_Disabled(0, 0, node.Width, node.Height, state.Label_)
+					//go_dark_ux.DrawCheckbox_Unchecked_Disabled(0, 0, node.Width, node.Height, state.Label_)
 				}
 			}
 

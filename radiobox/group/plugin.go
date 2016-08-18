@@ -1,4 +1,4 @@
-package checkbox
+package radio
 
 import (
 	"github.com/amortaza/go-bellina"
@@ -10,7 +10,7 @@ type Plugin struct {
 }
 
 func (c *Plugin) Name() string {
-	return "checkbox"
+	return "radio"
 }
 
 func (c *Plugin) Init() {

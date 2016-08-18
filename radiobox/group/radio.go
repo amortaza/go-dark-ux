@@ -1,19 +1,20 @@
-package checkbox
+package radio
 
 import (
 	"github.com/amortaza/go-bellina-plugins/click"
 	"github.com/amortaza/go-bellina"
-	"github.com/amortaza/go-dark-ux"
+	"github.com/amortaza/go-dark-ux/radiobox/choice"
+	"fmt"
+	"github.com/amortaza/go-dark-ux/pane"
 )
 
 type State struct {
-	CheckboxId                   string
-	IsChecked                    bool
+	RadioId                      string
 	IsEnabled                    bool
 
 	Label_                       string
 
-	Left_, Top_, Width_, Height_ int
+	Left_, Top_, Width_ 	     int
 
 	OnClick                      func()
 }
@@ -21,10 +22,10 @@ type State struct {
 // Shared variable across Div()/End()
 var gCurState *State
 
-func Id(postfixCheckboxId string) *State {
-	buttonId := bl.Current_Node.Id + "/" + postfixCheckboxId
+func Id(postfixRadioId string) *State {
+	radioId := bl.Current_Node.Id + "/" + postfixRadioId
 
-	gCurState = ensureState(buttonId)
+	gCurState = ensureState(radioId)
 
 	div()
 
@@ -38,32 +39,27 @@ func (s *State) On(cb func(interface{})) {
 
 func div() {
 
-	checkboxId := gCurState.CheckboxId
+	radioId := gCurState.RadioId
 
-	//fmt.Println("checkbox Id " + checkboxId)
-	state := gCurState
+	//state := gCurState
 
 	bl.Div()
 	{
-		bl.Id(checkboxId)
+		bl.Id(radioId)
 
-		bl.CustomRenderer(func(node *bl.Node) {
-			if state.IsChecked {
-				if state.IsEnabled {
-					go_dark_ux.DrawCheckbox_Checked(0, 0, node.Width, node.Height, state.Label_)
-				} else {
-					go_dark_ux.DrawCheckbox_Checked_Disabled(0, 0, node.Width, node.Height, state.Label_)
-				}
+		pane.Id("mypane2").Label("Cool").Left(0).Top(0).Width(100).Height(100).End()
 
-			} else {
-				if state.IsEnabled {
-					go_dark_ux.DrawCheckbox_Unchecked(0, 0, node.Width, node.Height, state.Label_)
-				} else {
-					go_dark_ux.DrawCheckbox_Unchecked_Disabled(0, 0, node.Width, node.Height, state.Label_)
-				}
-			}
+		radiobox.Id("One").Label("One!").Left(30).Top(30).Width(160).Height(60)
+		radiobox.OnClick(func() {
+			fmt.Println("checkbox clicked")
+		})
+		radiobox.End()
 
-		}, false)
+		radiobox.Id("Two").Label("Two").Left(30).Top(110).Width(160).Height(60)
+		radiobox.OnClick(func() {
+			fmt.Println("checkbox clicked")
+		})
+		radiobox.End()
 	}
 }
 
@@ -91,12 +87,6 @@ func (s *State) Width(w int) (*State){
 	return s
 }
 
-func (s *State) Height(h int) (*State){
-	s.Height_ = h
-
-	return s
-}
-
 func (s *State) End() (*State){
 	End()
 
@@ -116,7 +106,6 @@ func End() {
 
 		// click
 		func(i interface{}) {
-			state.IsChecked = !state.IsChecked
 
 			if state.IsEnabled && state.OnClick != nil {
 				state.OnClick()
@@ -132,7 +121,7 @@ func End() {
 		} )
 
 	bl.Pos(state.Left_, state.Top_)
-	bl.Dim(state.Width_, state.Height_)
+	bl.Dim(state.Width_, 50)
 
 	bl.End()
 }
