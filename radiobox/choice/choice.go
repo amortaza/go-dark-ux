@@ -1,11 +1,8 @@
-package radio
+package radiobox
 
 import (
 	"github.com/amortaza/go-bellina-plugins/click"
 	"github.com/amortaza/go-bellina"
-	"github.com/amortaza/go-dark-ux/radiobox/choice"
-	"fmt"
-	"github.com/amortaza/go-dark-ux/pane"
 )
 
 func init() {
@@ -13,12 +10,13 @@ func init() {
 }
 
 type State struct {
-	RadioId                      string
+	RadioboxId                   string
+	IsChecked                    bool
 	IsEnabled                    bool
 
 	Label_                       string
 
-	Left_, Top_, Width_ 	     int
+	Left_, Top_, Width_, Height_ int
 
 	OnClick                      func()
 }
@@ -26,10 +24,10 @@ type State struct {
 // Shared variable across Div()/End()
 var gCurState *State
 
-func Id(postfixRadioId string) *State {
-	radioId := bl.Current_Node.Id + "/" + postfixRadioId
+func Id(postfixRadioboxId string) *State {
+	buttonId := bl.Current_Node.Id + "/" + postfixRadioboxId
 
-	gCurState = ensureState(radioId)
+	gCurState = ensureState(buttonId)
 
 	div()
 
@@ -43,27 +41,32 @@ func (s *State) On(cb func(interface{})) {
 
 func div() {
 
-	radioId := gCurState.RadioId
+	radioboxId := gCurState.RadioboxId
 
-	//state := gCurState
+	state := gCurState
 
 	bl.Div()
 	{
-		bl.Id(radioId)
+		bl.Id(radioboxId)
 
-		pane.Id("mypane2").Label("Cool").Left(0).Top(0).Width(100).Height(100).End()
+		bl.CustomRenderer(func(node *bl.Node) {
 
-		radiobox.Id("One").Label("One!").Left(30).Top(30).Width(160).Height(60)
-		radiobox.OnClick(func() {
-			fmt.Println("checkbox clicked")
-		})
-		radiobox.End()
+			if state.IsChecked {
+				if state.IsEnabled {
+					ux_checked.Draw(0, 0, node.Width, node.Height, state.Label_)
+				} else {
+					//go_dark_ux.DrawCheckbox_Checked_Disabled(0, 0, node.Width, node.Height, state.Label_)
+				}
 
-		radiobox.Id("Two").Label("Two").Left(30).Top(110).Width(160).Height(60)
-		radiobox.OnClick(func() {
-			fmt.Println("checkbox clicked")
-		})
-		radiobox.End()
+			} else {
+				if state.IsEnabled {
+					ux_unchecked.Draw(0, 0, node.Width, node.Height, state.Label_)
+				} else {
+					//go_dark_ux.DrawCheckbox_Unchecked_Disabled(0, 0, node.Width, node.Height, state.Label_)
+				}
+			}
+
+		}, false)
 	}
 }
 
@@ -91,6 +94,12 @@ func (s *State) Width(w int) (*State){
 	return s
 }
 
+func (s *State) Height(h int) (*State){
+	s.Height_ = h
+
+	return s
+}
+
 func (s *State) End() (*State){
 	End()
 
@@ -110,6 +119,7 @@ func End() {
 
 		// click
 		func(i interface{}) {
+			state.IsChecked = !state.IsChecked
 
 			if state.IsEnabled && state.OnClick != nil {
 				state.OnClick()
@@ -125,7 +135,7 @@ func End() {
 		} )
 
 	bl.Pos(state.Left_, state.Top_)
-	bl.Dim(state.Width_, 150)
+	bl.Dim(state.Width_, state.Height_)
 
 	bl.End()
 }
