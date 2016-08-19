@@ -5,6 +5,10 @@ import (
 	"github.com/amortaza/go-dark-ux"
 )
 
+func init() {
+	gStateByNode = make(map[string] *State)
+}
+
 type State struct {
 	PaneId                   string
 
@@ -30,7 +34,6 @@ func div() {
 
 	paneId := gCurState.PaneId
 
-	//fmt.Println("checkbox Id " + checkboxId)
 	state := gCurState
 
 	bl.Div()
@@ -38,7 +41,7 @@ func div() {
 		bl.Id(paneId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
-			go_dark_ux.DrawPane(0, 0, node.Width, node.Height, state.Label_)
+			ux_default.Draw(0, 0, node.Width, node.Height, state.Label_)
 		}, false)
 	}
 }
@@ -87,10 +90,5 @@ func End() {
 	bl.Dim(state.Width_, state.Height_)
 
 	bl.End()
-}
-
-func init() {
-	plugin = &Plugin{}
-	bl.Plugin(plugin)
 }
 

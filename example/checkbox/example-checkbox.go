@@ -13,7 +13,7 @@ import (
 func initialize() {
 	go_dark_ux.Init()
 }
-var x int = 10
+
 func tick() {
 
 	bl.Root()
@@ -24,22 +24,38 @@ func tick() {
 		bl.Div()
 		{
 			bl.Id("red")
-			bl.Pos(x,10)
-			bl.Dim(320,240)
+			bl.Pos(10,10)
+			bl.Dim(640,480)
 
-			checkbox.Id("mycheckbox").Label("Hi!").Left(x).Top(10).Width(160).Height(60)
+			checkbox.Id("1").Label("Hi!").Left(10).Top(10).Width(160).Height(60)
 			checkbox.OnClick(func() {
 				fmt.Println("checkbox clicked")
 			})
 			checkbox.End()
 
-			button.Id("mybutton").Label("Bye!").Left(x).Top(90).Width(160).Height(60)
+			checkbox.Id("2").Label("Hi!").Left(10).Top(100).Width(160).Height(60).Enabled(true).Checked(false)
+			checkbox.OnClick(func() {
+				fmt.Println("checkbox clicked")
+			})
+			checkbox.End()
+
+			checkbox.Id("3").Label("Hi!").Left(10).Top(190).Width(160).Height(60).Enabled(false).Checked(true)
+			checkbox.OnClick(func() {
+				fmt.Println("checkbox clicked")
+			})
+			checkbox.End()
+
+			checkbox.Id("4").Label("Hi!").Left(10).Top(280).Width(160).Height(60).Enabled(false).Checked(false)
+			checkbox.OnClick(func() {
+				fmt.Println("checkbox clicked")
+			})
+			checkbox.End()
+
+			button.Id("mybutton").Label("Bye!").Left(10).Top(370).Width(160).Height(60)
 			button.OnClick(func() {
 				fmt.Println("button clicked")
 			})
 			button.End()
-
-			//x += 3
 		}
 		bl.End()
 	}

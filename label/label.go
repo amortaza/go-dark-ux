@@ -2,8 +2,11 @@ package label
 
 import (
 	"github.com/amortaza/go-bellina"
-	"github.com/amortaza/go-dark-ux"
 )
+
+func init() {
+	gStateByNode = make(map[string] *State)
+}
 
 type State struct {
 	LabelId                     string
@@ -35,7 +38,7 @@ func div() {
 		bl.Id(labelId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
-			go_dark_ux.DrawLabel(0, 0, node.Width, node.Height, state.Label_)
+			ux_default.Draw(0, 0, node.Width, node.Height, state.Label_)
 		}, false)
 	}
 }
@@ -84,10 +87,5 @@ func End() {
 	bl.Dim(state.Width_, state.Height_)
 
 	bl.End()
-}
-
-func init() {
-	plugin = &Plugin{}
-	bl.Plugin(plugin)
 }
 

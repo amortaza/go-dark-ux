@@ -6,6 +6,10 @@ import (
 	"github.com/amortaza/go-dark-ux"
 )
 
+func init() {
+	gStateByNode = make(map[string] *State)
+}
+
 type State struct {
 	RadioboxId                   string
 	IsChecked                    bool
@@ -40,7 +44,6 @@ func div() {
 
 	radioboxId := gCurState.RadioboxId
 
-	//fmt.Println("checkbox Id " + checkboxId)
 	state := gCurState
 
 	bl.Div()
@@ -51,14 +54,14 @@ func div() {
 
 			if state.IsChecked {
 				if state.IsEnabled {
-					go_dark_ux.DrawRadiobox_Checked(0, 0, node.Width, node.Height, state.Label_)
+					ux_checked.Draw(0, 0, node.Width, node.Height, state.Label_)
 				} else {
 					//go_dark_ux.DrawCheckbox_Checked_Disabled(0, 0, node.Width, node.Height, state.Label_)
 				}
 
 			} else {
 				if state.IsEnabled {
-					go_dark_ux.DrawRadiobox_Unchecked(0, 0, node.Width, node.Height, state.Label_)
+					ux_unchecked.Draw(0, 0, node.Width, node.Height, state.Label_)
 				} else {
 					//go_dark_ux.DrawCheckbox_Unchecked_Disabled(0, 0, node.Width, node.Height, state.Label_)
 				}
@@ -136,10 +139,5 @@ func End() {
 	bl.Dim(state.Width_, state.Height_)
 
 	bl.End()
-}
-
-func init() {
-	plugin = &Plugin{}
-	bl.Plugin(plugin)
 }
 

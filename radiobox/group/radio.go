@@ -8,6 +8,10 @@ import (
 	"github.com/amortaza/go-dark-ux/pane"
 )
 
+func init() {
+	gStateByNode = make(map[string] *State)
+}
+
 type State struct {
 	RadioId                      string
 	IsEnabled                    bool
@@ -121,13 +125,8 @@ func End() {
 		} )
 
 	bl.Pos(state.Left_, state.Top_)
-	bl.Dim(state.Width_, 50)
+	bl.Dim(state.Width_, 150)
 
 	bl.End()
-}
-
-func init() {
-	plugin = &Plugin{}
-	bl.Plugin(plugin)
 }
 

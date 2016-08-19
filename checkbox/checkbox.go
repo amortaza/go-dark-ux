@@ -3,8 +3,11 @@ package checkbox
 import (
 	"github.com/amortaza/go-bellina-plugins/click"
 	"github.com/amortaza/go-bellina"
-	"github.com/amortaza/go-dark-ux"
 )
+
+func init() {
+	gStateByNode = make(map[string] *State)
+}
 
 type State struct {
 	CheckboxId                   string
@@ -40,7 +43,6 @@ func div() {
 
 	checkboxId := gCurState.CheckboxId
 
-	//fmt.Println("checkbox Id " + checkboxId)
 	state := gCurState
 
 	bl.Div()
@@ -50,16 +52,16 @@ func div() {
 		bl.CustomRenderer(func(node *bl.Node) {
 			if state.IsChecked {
 				if state.IsEnabled {
-					go_dark_ux.DrawCheckbox_Checked(0, 0, node.Width, node.Height, state.Label_)
+					ux_checked.Draw(0, 0, node.Width, node.Height, state.Label_)
 				} else {
-					go_dark_ux.DrawCheckbox_Checked_Disabled(0, 0, node.Width, node.Height, state.Label_)
+					ux_checked_disabled.Draw(0, 0, node.Width, node.Height, state.Label_)
 				}
 
 			} else {
 				if state.IsEnabled {
-					go_dark_ux.DrawCheckbox_Unchecked(0, 0, node.Width, node.Height, state.Label_)
+					ux_unchecked.Draw(0, 0, node.Width, node.Height, state.Label_)
 				} else {
-					go_dark_ux.DrawCheckbox_Unchecked_Disabled(0, 0, node.Width, node.Height, state.Label_)
+					ux_unchecked_disabled.Draw(0, 0, node.Width, node.Height, state.Label_)
 				}
 			}
 
@@ -93,6 +95,18 @@ func (s *State) Width(w int) (*State){
 
 func (s *State) Height(h int) (*State){
 	s.Height_ = h
+
+	return s
+}
+
+func (s *State) Enabled(enabled bool) (*State){
+	s.IsEnabled = enabled
+
+	return s
+}
+
+func (s *State) Checked(checked bool) (*State){
+	s.IsChecked = checked
 
 	return s
 }
@@ -135,10 +149,5 @@ func End() {
 	bl.Dim(state.Width_, state.Height_)
 
 	bl.End()
-}
-
-func init() {
-	plugin = &Plugin{}
-	bl.Plugin(plugin)
 }
 

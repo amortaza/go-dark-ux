@@ -3,7 +3,6 @@ package button
 import (
 	"github.com/amortaza/go-bellina-plugins/click"
 	"github.com/amortaza/go-bellina"
-	"github.com/amortaza/go-dark-ux"
 )
 
 type State struct {
@@ -21,6 +20,10 @@ type State struct {
 
 // Shared variable across Div()/End()
 var gCurState *State
+
+func init() {
+	gStateByNode = make(map[string] *State)
+}
 
 func Id(postfixButtonId string) *State {
 	buttonId := bl.Current_Node.Id + "/" + postfixButtonId
@@ -47,15 +50,15 @@ func div() {
 		bl.Id(buttonId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
-			//fmt.Println("node ",node.Id, " ", node.Left, node.Top, node.Width, node.Height)
+
 			if !state.IsEnabled {
-				go_dark_ux.DrawButton_Disabled(0, 0, node.Width, node.Height, state.Label_)
+				ux_disabled.Draw(0, 0, node.Width, node.Height, state.Label_)
 
 			} else if state.IsDown {
-				go_dark_ux.DrawButton_Pressed(0,  0, node.Width, node.Height, state.Label_)
+				ux_pressed.Draw(0,  0, node.Width, node.Height, state.Label_)
 
 			} else {
-				go_dark_ux.DrawButton(0,  0, node.Width, node.Height, state.Label_)
+				ux_default.Draw(0,  0, node.Width, node.Height, state.Label_)
 			}
 
 		}, false)
@@ -144,10 +147,5 @@ func End() {
 	bl.Dim(state.Width_, state.Height_)
 
 	bl.End()
-}
-
-func init() {
-	plugin = &Plugin{}
-	bl.Plugin(plugin)
 }
 
