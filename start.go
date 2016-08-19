@@ -18,22 +18,26 @@ var radiobox_unchecked *ux.Entity
 
 var pane *ux.Entity
 
+var label *ux.Entity
+
 func Init() {
 	ux.Init()
 
-	button = &ux.Entity{File:"c:/go-proj/src/github.com/amortaza/go-dark-ux/js/dark-button.js"}
-	button_pressed = &ux.Entity{File:"c:/go-proj/src/github.com/amortaza/go-dark-ux/js/dark-button-pressed.js"}
-	button_disabled = &ux.Entity{File:"c:/go-proj/src/github.com/amortaza/go-dark-ux/js/dark-button-disabled.js"}
+	button = &ux.Entity{File:"c:/goWork/src/github.com/amortaza/go-dark-ux/js/dark-button.js"}
+	button_pressed = &ux.Entity{File:"c:/goWork/src/github.com/amortaza/go-dark-ux/js/dark-button-pressed.js"}
+	button_disabled = &ux.Entity{File:"c:/goWork/src/github.com/amortaza/go-dark-ux/js/dark-button-disabled.js"}
 
-	checkbox_unchecked = &ux.Entity{File:"c:/go-proj/src/github.com/amortaza/go-dark-ux/js/dark-checkbox-unchecked.js"}
-	checkbox_checked = &ux.Entity{File:"c:/go-proj/src/github.com/amortaza/go-dark-ux/js/dark-checkbox-checked.js"}
-	checkbox_checked_disabled = &ux.Entity{File:"c:/go-proj/src/github.com/amortaza/go-dark-ux/js/dark-checkbox-checked-disabled.js"}
-	checkbox_unchecked_disabled = &ux.Entity{File:"c:/go-proj/src/github.com/amortaza/go-dark-ux/js/dark-checkbox-unchecked-disabled.js"}
+	checkbox_unchecked = &ux.Entity{File:"c:/goWork/src/github.com/amortaza/go-dark-ux/js/dark-checkbox-unchecked.js"}
+	checkbox_checked = &ux.Entity{File:"c:/goWork/src/github.com/amortaza/go-dark-ux/js/dark-checkbox-checked.js"}
+	checkbox_checked_disabled = &ux.Entity{File:"c:/goWork/src/github.com/amortaza/go-dark-ux/js/dark-checkbox-checked-disabled.js"}
+	checkbox_unchecked_disabled = &ux.Entity{File:"c:/goWork/src/github.com/amortaza/go-dark-ux/js/dark-checkbox-unchecked-disabled.js"}
 
-	radiobox_checked = &ux.Entity{File:"c:/go-proj/src/github.com/amortaza/go-dark-ux/js/dark-radiobox-checked.js"}
-	radiobox_unchecked = &ux.Entity{File:"c:/go-proj/src/github.com/amortaza/go-dark-ux/js/dark-radiobox-unchecked.js"}
+	radiobox_checked = &ux.Entity{File:"c:/goWork/src/github.com/amortaza/go-dark-ux/js/dark-radiobox-checked.js"}
+	radiobox_unchecked = &ux.Entity{File:"c:/goWork/src/github.com/amortaza/go-dark-ux/js/dark-radiobox-unchecked.js"}
 
-	pane = &ux.Entity{File:"c:/go-proj/src/github.com/amortaza/go-dark-ux/js/dark-pane.js"}
+	pane = &ux.Entity{File:"c:/goWork/src/github.com/amortaza/go-dark-ux/js/dark-pane.js"}
+
+	label = &ux.Entity{File:"c:/goWork/src/github.com/amortaza/go-dark-ux/js/dark-label.js"}
 }
 
 func Uninit() {
@@ -51,6 +55,12 @@ func DrawButton_Pressed(x,y,w,h int, label string) {
 
 func DrawButton_Disabled(x,y,w,h int, label string) {
 	button_disabled.Draw(x,y,w,h,label)
+}
+
+/* Label */
+
+func DrawLabel(x,y,w,h int, text string) {
+	label.Draw(x,y,w,h,text)
 }
 
 /* Checkbox */
