@@ -2,7 +2,6 @@ package pane
 
 import (
 	"github.com/amortaza/go-bellina"
-	"github.com/amortaza/go-dark-ux"
 )
 
 func init() {

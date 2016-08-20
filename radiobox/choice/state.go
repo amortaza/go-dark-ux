@@ -1,16 +1,31 @@
-package radiobox
+package choice
 
+type State struct {
+	ChoiceId                     string
+	IsChecked                    bool
+	IsEnabled                    bool
 
-var gStateByNode  map[string] *State
+	Label_                       string
 
-func ensureState(RadioboxId string) *State {
-	state, ok := gStateByNode[RadioboxId]
+	Left_, Top_, Width_, Height_ int
+
+	OnClick                      func()
+}
+
+// Shared variable across Div()/End()
+var CurState *State
+
+var gStateById  map[string] *State
+
+func EnsureState(choiceId string) *State {
+	state, ok := gStateById[choiceId]
 
 	if !ok {
-		state = &State{RadioboxId: RadioboxId, Label_: "OK", Width_: 95, Height_: 30, IsEnabled: true}
+		state = &State{ChoiceId: choiceId, Label_: "OK", Width_: 95, Height_: 30, IsEnabled: true}
 
-		gStateByNode[RadioboxId] = state
+		gStateById[choiceId] = state
 	}
 
 	return state
 }
+

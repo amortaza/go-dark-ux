@@ -6,8 +6,6 @@ import (
 	"github.com/amortaza/go-bellina"
 	"github.com/amortaza/go-hal-oob"
 	"github.com/amortaza/go-dark-ux"
-	"github.com/amortaza/go-dark-ux/pane"
-	"github.com/amortaza/go-dark-ux/checkbox"
 	"github.com/amortaza/go-dark-ux/radiobox/group"
 )
 
@@ -20,30 +18,22 @@ func tick() {
 	bl.Root()
 	{
 		bl.Pos(0,0)
-		bl.Dim(800, 600)
+		bl.Dim(800, 700)
 
 		bl.Div()
 		{
 			bl.Id("red")
 			bl.Pos(10,10)
-			bl.Dim(640,480)
+			bl.Dim(780,680)
 
-			pane.Id("mypane").Label("Cool").Left(10).Top(10).Width(500).Height(400).End()
-
-			//radiobox.AddChoice("One")
-			//radiobox.AddChoice("Two")
-			//radiobox.AddChoice("Three")
-			radio.Id("wow").Label("Hi!").Left(30).Top(30).Width(160)
-			radio.OnClick(func() {
+			group.Id("wow2").Label("Best way to code Bellina?").Left(150).Top(330).Width(350)
+			group.AddChoice("At Night")
+			group.AddChoice("During the Day")
+			group.AddChoice("Any time")
+			group.OnClick(func() {
 				fmt.Println("checkbox clicked")
 			})
-			radio.End()
-
-			checkbox.Id("mycheckbox").Label("Hi!").Left(30).Top(230).Width(160).Height(60)
-			checkbox.OnClick(func() {
-				fmt.Println("checkbox clicked")
-			})
-			checkbox.End()
+			group.End()
 		}
 		bl.End()
 	}

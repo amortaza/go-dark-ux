@@ -1,4 +1,4 @@
-package radiobox
+package choice
 
 import (
 	"github.com/amortaza/go-bellina-plugins/click"
@@ -6,44 +6,24 @@ import (
 )
 
 func init() {
-	gStateByNode = make(map[string] *State)
+	gStateById = make(map[string] *State)
 }
 
-type State struct {
-	RadioboxId                   string
-	IsChecked                    bool
-	IsEnabled                    bool
+func Id(postChoiceId string) *State {
+	choiceId := bl.Current_Node.Id + "/" + postChoiceId
 
-	Label_                       string
-
-	Left_, Top_, Width_, Height_ int
-
-	OnClick                      func()
-}
-
-// Shared variable across Div()/End()
-var gCurState *State
-
-func Id(postfixRadioboxId string) *State {
-	buttonId := bl.Current_Node.Id + "/" + postfixRadioboxId
-
-	gCurState = ensureState(buttonId)
+	CurState = EnsureState(choiceId)
 
 	div()
 
-	return gCurState
-}
-
-func (s *State) On(cb func(interface{})) {
-
-	gCurState = s
+	return CurState
 }
 
 func div() {
 
-	radioboxId := gCurState.RadioboxId
+	radioboxId := CurState.ChoiceId
 
-	state := gCurState
+	state := CurState
 
 	bl.Div()
 	{
@@ -108,12 +88,12 @@ func (s *State) End() (*State){
 
 func OnClick(cb func()) {
 
-	gCurState.OnClick = cb
+	CurState.OnClick = cb
 }
 
 func End() {
 
-	state := gCurState
+	state := CurState
 
 	click.On2(
 

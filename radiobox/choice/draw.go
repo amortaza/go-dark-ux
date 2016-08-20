@@ -1,4 +1,4 @@
-package radiobox
+package choice
 
 import "github.com/amortaza/go-ux"
 

@@ -21,7 +21,7 @@ ctx.Text(tx, ty, text)
 var r = 17.0
 var innerR = 10.0
 
-var cx = x + r;
+var cx = x + r + 1;
 var cy = y + h * 0.5
 
 ctx.BeginPath()

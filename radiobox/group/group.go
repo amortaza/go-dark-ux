@@ -1,27 +1,16 @@
-package radio
+package group
 
 import (
-	"github.com/amortaza/go-bellina-plugins/click"
 	"github.com/amortaza/go-bellina"
+	"container/list"
 	"github.com/amortaza/go-dark-ux/radiobox/choice"
-	"fmt"
 	"github.com/amortaza/go-dark-ux/pane"
 )
 
 func init() {
-	gStateByNode = make(map[string] *State)
+	g_stateById = make(map[string] *State)
 }
 
-type State struct {
-	RadioId                      string
-	IsEnabled                    bool
-
-	Label_                       string
-
-	Left_, Top_, Width_ 	     int
-
-	OnClick                      func()
-}
 
 // Shared variable across Div()/End()
 var gCurState *State
@@ -31,70 +20,69 @@ func Id(postfixRadioId string) *State {
 
 	gCurState = ensureState(radioId)
 
-	div()
+	gCurState.ChoiceLabels = list.New()
+	gCurState.ChoiceIds = list.New()
 
 	return gCurState
 }
 
-func (s *State) On(cb func(interface{})) {
-
-	gCurState = s
-}
-
 func div() {
 
-	radioId := gCurState.RadioId
+	groupId := gCurState.GroupId
 
-	//state := gCurState
+	state := gCurState
 
 	bl.Div()
 	{
-		bl.Id(radioId)
+		bl.Id(groupId)
 
-		pane.Id("mypane2").Label("Cool").Left(0).Top(0).Width(100).Height(100).End()
+		pane.Id("mypane2").Label("Cool").Left(0).Top(0).Width(340).Height(270).End()
 
-		radiobox.Id("One").Label("One!").Left(30).Top(30).Width(160).Height(60)
-		radiobox.OnClick(func() {
-			fmt.Println("checkbox clicked")
-		})
-		radiobox.End()
+		bl.CustomRenderer(func(node *bl.Node) {
+			ux_group.Draw(0, 0, node.Width, node.Height, state.Label_)
+		}, true)
 
-		radiobox.Id("Two").Label("Two").Left(30).Top(110).Width(160).Height(60)
-		radiobox.OnClick(func() {
-			fmt.Println("checkbox clicked")
-		})
-		radiobox.End()
+		top := 50
+		height := 60
+		spacing := 10
+
+		for e := state.ChoiceLabels.Front(); e != nil; e = e.Next() {
+		        label := e.Value.(string)
+
+			choice.Id(label).Label(label).Left(10).Top(top).Width(240).Height(height)
+
+			choiceId := choice.CurState.ChoiceId
+
+			state.ChoiceIds.PushBack(choiceId)
+
+			choice.OnClick(func() {
+				for e := state.ChoiceIds.Front(); e != nil; e = e.Next() {
+					choiceId := e.Value.(string)
+
+					choiceState := choice.EnsureState(choiceId)
+					choiceState.IsChecked = false
+				}
+
+				choiceState := choice.EnsureState(choiceId)
+				choiceState.IsChecked = true
+			})
+			choice.End()
+
+			top += height + spacing
+		}
 	}
 }
 
-func (s *State) Label(label string) (*State){
-	s.Label_ = label
+func End() {
 
-	return s
-}
+	div()
 
-func (s *State) Left(left int) (*State){
-	s.Left_ = left
+	state := gCurState
 
-	return s
-}
+	bl.Pos(state.Left_, state.Top_)
+	bl.Dim(state.Width_, 350)
 
-func (s *State) Top(top int) (*State){
-	s.Top_ = top
-
-	return s
-}
-
-func (s *State) Width(w int) (*State){
-	s.Width_ = w
-
-	return s
-}
-
-func (s *State) End() (*State){
-	End()
-
-	return s
+	bl.End()
 }
 
 func OnClick(cb func()) {
@@ -102,13 +90,9 @@ func OnClick(cb func()) {
 	gCurState.OnClick = cb
 }
 
-func End() {
+func AddChoice(label string) {
 
-	state := gCurState
-
-	bl.Pos(state.Left_, state.Top_)
-	bl.Dim(state.Width_, 150)
-
-	bl.End()
+	gCurState.AddChoice(label)
 }
+
 
