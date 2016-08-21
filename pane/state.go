@@ -1,15 +1,20 @@
 package pane
 
+type State struct {
+	PaneId string
 
-var gStateByNode  map[string] *State
+	Label_ string
+}
+
+var g_stateById  map[string] *State
 
 func ensureState(paneId string) *State {
-	state, ok := gStateByNode[paneId]
+	state, ok := g_stateById[paneId]
 
 	if !ok {
-		state = &State{PaneId: paneId, Label_: "OK", Width_: 95, Height_: 30}
+		state = &State{PaneId: paneId, Label_: "OK"}
 
-		gStateByNode[paneId] = state
+		g_stateById[paneId] = state
 	}
 
 	return state

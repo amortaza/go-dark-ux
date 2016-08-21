@@ -5,39 +5,35 @@ import (
 )
 
 func init() {
-	gStateByNode = make(map[string] *State)
-}
-
-type State struct {
-	PaneId                   string
-
-	Label_                       string
-
-	Left_, Top_, Width_, Height_ int
+	g_stateById = make(map[string] *State)
 }
 
 // Shared variable across Div()/End()
-var gCurState *State
+var g_curState *State
 
 func Id(postPaneId string) *State {
 	paneId := bl.Current_Node.Id + "/" + postPaneId
 	
-	gCurState = ensureState(paneId)
+	g_curState = ensureState(paneId)
 
 	div()
 
-	return gCurState
+	return g_curState
 }
 
 func div() {
 
-	paneId := gCurState.PaneId
+	paneId := g_curState.PaneId
 
-	state := gCurState
+	state := g_curState
 
 	bl.Div()
 	{
 		bl.Id(paneId)
+
+		parent := bl.Current_Node.Parent
+		bl.Pos( parent.Left+1, parent.Top+1)
+		bl.Dim( parent.Width-2, parent.Height-2)
 
 		bl.CustomRenderer(func(node *bl.Node) {
 			ux_default.Draw(0, 0, node.Width, node.Height, state.Label_)
@@ -51,30 +47,6 @@ func (s *State) Label(label string) (*State){
 	return s
 }
 
-func (s *State) Left(left int) (*State){
-	s.Left_ = left
-
-	return s
-}
-
-func (s *State) Top(top int) (*State){
-	s.Top_ = top
-
-	return s
-}
-
-func (s *State) Width(w int) (*State){
-	s.Width_ = w
-
-	return s
-}
-
-func (s *State) Height(h int) (*State){
-	s.Height_ = h
-
-	return s
-}
-
 func (s *State) End() (*State){
 	End()
 
@@ -82,12 +54,6 @@ func (s *State) End() (*State){
 }
 
 func End() {
-
-	state := gCurState
-
-	bl.Pos(state.Left_, state.Top_)
-	bl.Dim(state.Width_, state.Height_)
-
 	bl.End()
 }
 
