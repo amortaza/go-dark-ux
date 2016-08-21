@@ -4,7 +4,7 @@ import (
 	"github.com/amortaza/go-bellina"
 	"container/list"
 	"github.com/amortaza/go-dark-ux/radiobox/choice"
-	"github.com/amortaza/go-dark-ux/pane"
+	"github.com/amortaza/go-bellina-plugins/layout/vert"
 )
 
 func init() {
@@ -36,20 +36,16 @@ func div() {
 	{
 		bl.Id(groupId)
 
-		pane.Id("mypane2").Label("Cool").Left(0).Top(0).Width(340).Height(270).End()
-
 		bl.CustomRenderer(func(node *bl.Node) {
 			ux_group.Draw(0, 0, node.Width, node.Height, state.Label_)
 		}, true)
 
-		top := 50
 		height := 60
-		spacing := 10
 
 		for e := state.ChoiceLabels.Front(); e != nil; e = e.Next() {
 		        label := e.Value.(string)
 
-			choice.Id(label).Label(label).Left(10).Top(top).Width(240).Height(height)
+			choice.Id(label).Label(label).Left(10)/*.Top(top)*/.Width(240).Height(height)
 
 			choiceId := choice.CurState.ChoiceId
 
@@ -67,9 +63,9 @@ func div() {
 				choiceState.IsChecked = true
 			})
 			choice.End()
-
-			top += height + spacing
 		}
+
+		vert.Id("one").Top(50).Spacing(0).End()
 	}
 }
 
@@ -80,7 +76,7 @@ func End() {
 	state := gCurState
 
 	bl.Pos(state.Left_, state.Top_)
-	bl.Dim(state.Width_, 350)
+	bl.Dim(state.Width_, state.ChoiceIds.Len() * 60 + 50 + 10)
 
 	bl.End()
 }

@@ -95,24 +95,13 @@ func End() {
 
 	state := CurState
 
-	click.On2(
-
-		// click
-		func(i interface{}) {
+	click.On( func(i interface{}) {
 			state.IsChecked = !state.IsChecked
 
 			if state.IsEnabled && state.OnClick != nil {
 				state.OnClick()
 			}
-		},
-
-		// on down
-		func(i interface{}) {
-		},
-
-		// on miss
-		func(i interface{}) {
-		} )
+	} )
 
 	bl.Pos(state.Left_, state.Top_)
 	bl.Dim(state.Width_, state.Height_)

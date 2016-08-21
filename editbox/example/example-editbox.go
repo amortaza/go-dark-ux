@@ -6,8 +6,7 @@ import (
 	"github.com/amortaza/go-bellina"
 	"github.com/amortaza/go-hal-oob"
 	"github.com/amortaza/go-dark-ux"
-	"github.com/amortaza/go-dark-ux/border"
-	"github.com/amortaza/go-bellina-plugins/layout/vert"
+	"github.com/amortaza/go-dark-ux/editbox"
 )
 
 func initialize() {
@@ -19,36 +18,15 @@ func tick() {
 	bl.Root()
 	{
 		bl.Pos(0,0)
-		bl.Dim(1024, 768)
+		bl.Dim(800, 700)
 
 		bl.Div()
 		{
-			bl.Id("zoo")
-			bl.Pos(50,50)
-			bl.Dim(800, 600)
-			border.Draw()
+			bl.Id("red")
+			bl.Pos(10,10)
+			bl.Dim(780,680)
 
-			bl.Div()
-			{
-				bl.Id("one")
-				bl.Pos(100,100)
-				bl.Dim(100,100)
-
-				border.Draw()
-			}
-			bl.End()
-
-			bl.Div()
-			{
-				bl.Id("two")
-				bl.Pos(100,100)
-				bl.Dim(100,100)
-
-				border.Draw()
-			}
-			bl.End()
-
-			vert.Id("one").Spacing(10).End()
+			editbox.Id("wow2").Left(150).Top(330).Width(350).End()
 		}
 		bl.End()
 	}
