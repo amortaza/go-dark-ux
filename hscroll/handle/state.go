@@ -1,9 +1,9 @@
-package hscroll
+package hhandle
 
 type State struct {
-	HScrollId           string
+	HHandleId           string
 
-	Left_, Top_, Width_ int
+	Left_, Top_, Width_, Height_ int
 }
 
 var g_stateById  map[string] *State
@@ -12,7 +12,7 @@ func ensureState(EditId string) *State {
 	state, ok := g_stateById[EditId]
 
 	if !ok {
-		state = &State{HScrollId: EditId, Width_: 95}
+		state = &State{HHandleId: EditId, Width_: 95, Height_: 50}
 
 		g_stateById[EditId] = state
 	}
@@ -34,6 +34,12 @@ func (s *State) Top(top int) (*State){
 
 func (s *State) Width(w int) (*State){
 	s.Width_ = w
+
+	return s
+}
+
+func (s *State) Height(w int) (*State){
+	s.Height_ = w
 
 	return s
 }

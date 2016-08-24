@@ -10,7 +10,7 @@ import (
 func init() {
 	g_stateById = make(map[string] *State)
 
-	bl.Register_LifeCycle_LongTerm_Tick(longTermOnTick)
+	bl.Register_LifeCycle_AfterUser_Tick(longTermOnTick)
 }
 
 // Shared variable across Div()/End()

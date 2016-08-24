@@ -1,151 +1,49 @@
 package hscroll
 
 import (
-	"github.com/amortaza/go-bellina-plugins/click"
 	"github.com/amortaza/go-bellina"
+	"github.com/amortaza/go-dark-ux/hscroll/handle"
 )
 
-type State struct {
-	ButtonId                     string
-	IsHover                      bool
-	IsDown                       bool
-	IsEnabled                    bool
-
-	Label_                       string
-
-	Left_, Top_, Width_, Height_ int
-
-	OnClick                      func()
+func init() {
+	g_stateById = make(map[string] *State)
 }
 
 // Shared variable across Div()/End()
-var gCurState *State
+var g_curState *State
 
-func init() {
-	gStateByNode = make(map[string] *State)
-}
+func Id(postfixId string) *State {
+	hscrollId := bl.Current_Node.Id + "/" + postfixId
 
-func Id(postfixButtonId string) *State {
-	buttonId := bl.Current_Node.Id + "/" + postfixButtonId
+	g_curState = ensureState(hscrollId)
 
-	gCurState = ensureState(buttonId)
-
-	div()
-
-	return gCurState
-}
-
-func (s *State) On(cb func(interface{})) {
-
-	gCurState = s
+	return g_curState
 }
 
 func div() {
 
-	buttonId := gCurState.ButtonId
-	state := gCurState
+	hscrollId := g_curState.HScrollId
+
+	state := g_curState
 
 	bl.Div()
 	{
-		bl.Id(buttonId)
+		bl.Id(hscrollId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
-
-			if !state.IsEnabled {
-				ux_disabled.Draw(0, 0, node.Width, node.Height, state.Label_)
-
-			} else if state.IsDown {
-				ux_pressed.Draw(0,  0, node.Width, node.Height, state.Label_)
-
-			} else {
-				ux_default.Draw(0,  0, node.Width, node.Height, state.Label_)
-			}
-
+			ux_enabled.Draw(0, 0, node.Width, node.Height, "")
 		}, false)
+
+		bl.Pos(state.Left_, state.Top_)
+		bl.Dim(state.Width_, 50)
+
+		hhandle.Id("handle").Width(40).Height(40).Left(10).Top(10).End()
 	}
-}
-
-func (s *State) Label(label string) (*State){
-	s.Label_ = label
-
-	return s
-}
-
-func (s *State) Left(left int) (*State){
-	s.Left_ = left
-
-	return s
-}
-
-func (s *State) Top(top int) (*State){
-	s.Top_ = top
-
-	return s
-}
-
-func (s *State) Width(w int) (*State){
-	s.Width_ = w
-
-	return s
-}
-
-func (s *State) Height(h int) (*State){
-	s.Height_ = h
-
-	return s
-}
-
-func (s *State) End() (*State){
-	End()
-
-	return s
-}
-
-func OnClick(cb func()) {
-
-	gCurState.OnClick = cb
 }
 
 func End() {
 
-	state := gCurState
-
-/*	hover.On(func(i interface{}){
-		e := i.(*hover.Event)
-
-		if e.IsInEvent {
-			state.IsHover = true
-		} else {
-			state.IsHover = false
-		}
-	})*/
-
-	//fmt.Println(state.Left_, state.Top_, state.Width_, state.Height_)
-
-	click.On2(
-
-		// click
-		func(i interface{}) {
-			state.IsDown = false
-
-			if state.IsEnabled && state.OnClick != nil {
-				state.OnClick()
-			}
-		},
-
-		// on down
-		func(i interface{}) {
-			state.IsDown = true
-		},
-
-		// on miss
-		func(i interface{}) {
-			state.IsDown = false
-		} )
-
-	bl.Pos(state.Left_, state.Top_)
-	bl.Dim(state.Width_, state.Height_)
+	div()
 
 	bl.End()
 }
-
