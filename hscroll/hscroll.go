@@ -37,7 +37,7 @@ func div() {
 		bl.Pos(state.Left_, state.Top_)
 		bl.Dim(state.Width_, 50)
 
-		hhandle.Id("handle").Width(40).Height(40).Left(10).Top(10).End()
+		hhandle.Id("handle").Width(40).Thickness(50 - 4*2).Left(4).Top(4).End()
 	}
 }
 

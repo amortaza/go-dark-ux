@@ -3,7 +3,7 @@ package hhandle
 type State struct {
 	HHandleId           string
 
-	Left_, Top_, Width_, Height_ int
+	Left_, Top_, Width_, Thickness_ int
 }
 
 var g_stateById  map[string] *State
@@ -12,7 +12,7 @@ func ensureState(EditId string) *State {
 	state, ok := g_stateById[EditId]
 
 	if !ok {
-		state = &State{HHandleId: EditId, Width_: 95, Height_: 50}
+		state = &State{HHandleId: EditId, Width_: 95, Thickness_: 50}
 
 		g_stateById[EditId] = state
 	}
@@ -38,8 +38,8 @@ func (s *State) Width(w int) (*State){
 	return s
 }
 
-func (s *State) Height(w int) (*State){
-	s.Height_ = w
+func (s *State) Thickness(thickness int) (*State){
+	s.Thickness_ = thickness
 
 	return s
 }
