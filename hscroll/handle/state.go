@@ -4,11 +4,13 @@ type State struct {
 	HHandleId           string
 
 	Left_, Top_, Width_, Thickness_ int
+
+	onScrollCallback func(float32)
 }
 
 var g_stateById  map[string] *State
 
-func ensureState(EditId string) *State {
+func EnsureState(EditId string) *State {
 	state, ok := g_stateById[EditId]
 
 	if !ok {

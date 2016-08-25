@@ -4,6 +4,8 @@ type State struct {
 	HScrollId           string
 
 	Left_, Top_, Width_, Thickness_ int
+
+	onScrollCallback func(float32)
 }
 
 var g_stateById  map[string] *State

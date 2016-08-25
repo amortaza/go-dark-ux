@@ -11,6 +11,7 @@ func init() {
 type State struct {
 	LabelId                     string
 	Label_                       string
+	FontSize_	int
 
 	Left_, Top_, Width_, Height_ int
 }
@@ -38,13 +39,22 @@ func div() {
 		bl.Id(labelId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
+			ux_default.SetFloat("FontSize", float32(state.FontSize_))
 			ux_default.Draw(0, 0, node.Width, node.Height, state.Label_)
 		}, false)
+
+		//border.Draw()
 	}
 }
 
 func (s *State) Label(label string) (*State){
 	s.Label_ = label
+
+	return s
+}
+
+func (s *State) FontSize(size int) (*State){
+	s.FontSize_ = size
 
 	return s
 }

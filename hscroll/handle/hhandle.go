@@ -16,7 +16,7 @@ var g_curState *State
 func Id(postfixId string) *State {
 	hhandleId := bl.Current_Node.Id + "/" + postfixId
 
-	g_curState = ensureState(hhandleId)
+	g_curState = EnsureState(hhandleId)
 
 	return g_curState
 }
@@ -40,9 +40,15 @@ func div() {
 	}
 }
 
+func On(cb func(float32)) {
+	g_curState.onScrollCallback = cb
+}
+
 func End() {
 
 	div()
+
+	state := g_curState
 
 	drag.On(func(v interface{}) {
 		e := v.(drag.Event)
@@ -50,13 +56,13 @@ func End() {
 
 		totalWidth := handle.Parent.Width
 
-		handleLeft := int(math.Max(4, float64(handle.Left)))
+		handleLeft := int(math.Max(1, float64(handle.Left)))
 
-		maxLeft := totalWidth - handle.Width - 4
+		maxLeft := totalWidth - handle.Width - 1
 		handleLeft = int(math.Min(float64(maxLeft), float64(handleLeft)))
 
 		bl.EnsureShadowByNode(handle).PosLeft__Self_and_Node(handleLeft)
-		bl.EnsureShadowByNode(handle).PosTop__Self_and_Node(4)
+		bl.EnsureShadowByNode(handle).PosTop__Self_and_Node(2)
 
 		//pctStart := float32(handle.Left) / float32(totalWidth)
 		//pctEnd := float32(handle.Left + handle.Width) / float32(totalWidth)
@@ -64,6 +70,9 @@ func End() {
 		//if cb != nil {
 		//	cb(newEvent(pctStart, pctEnd))
 		//}
+
+		var pct float32 = float32(handleLeft) / (float32(handle.Parent.Width) - float32(handle.Width))
+		state.onScrollCallback(pct)
 	})
 
 	bl.EnsureShadow().PosTop__Node_Only()

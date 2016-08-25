@@ -5,7 +5,7 @@ y++
 w -= 2
 h -= 2
 
-ctx.SetFontSize(36.0)
+ctx.SetFontSize(FontSize)
 ctx.SetFontFace("sans")
 
 ctx.SetTextAlign(vgoAlignLeft | vgoAlignMiddle)
@@ -18,7 +18,8 @@ ctx.SetFillColor(vgoRGBA(0, 0, 0, 255))
 ctx.Text(btnx, btny, text)
 
 ctx.SetFontBlur(0.0)
-ctx.SetFillColor(vgoRGBA(255, 255, 255, 170))
+//ctx.SetFillColor(vgoRGBA(255, 255, 255, 170))
+ctx.SetFillColor(vgoRGBA(234,134,60, 250))
 ctx.Text(btnx, btny, text)
 
 // test border
