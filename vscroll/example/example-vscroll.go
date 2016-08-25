@@ -6,10 +6,10 @@ import (
 	"github.com/amortaza/go-bellina"
 	"github.com/amortaza/go-hal-oob"
 	"github.com/amortaza/go-dark-ux"
-	"github.com/amortaza/go-dark-ux/hscroll"
+	"github.com/amortaza/go-dark-ux/vscroll"
 	"github.com/amortaza/go-dark-ux/label"
 	"strconv"
-	"github.com/amortaza/go-dark-ux/border"
+	"github.com/amortaza/go-dark-ux/hscroll"
 )
 
 func initialize() {
@@ -31,14 +31,31 @@ func tick() {
 			bl.Pos(10,10)
 			bl.Dim(780,680)
 
-			hscroll.Id("wow2").Left(10).Top(300).Width(750)
+			vscroll.Id("wow1").Left(10).Top(30).Height(450)
+			vscroll.On(func(v float32) {
+				i = int(v * 101)
+			})
+			vscroll.End()
+
+			vscroll.Id("wow2").Left(480).Top(30).Height(450)
+			vscroll.On(func(v float32) {
+				i = int(v * 101)
+			})
+			vscroll.End()
+
+			hscroll.Id("wow3").Left(30).Top(20).Width(450)
 			hscroll.On(func(v float32) {
 				i = int(v * 101)
 			})
 			hscroll.End()
 
-			label.Id("label").Label(strconv.Itoa(i)+"%").Left(250).Top(100).Width(350).Height(200).FontSize(200)
-			border.Draw()
+			hscroll.Id("wow4").Left(30).Top(470).Width(450)
+			hscroll.On(func(v float32) {
+				i = int(v * 101)
+			})
+			hscroll.End()
+
+			label.Id("label").Label(strconv.Itoa(i)+"%").Left(100).Top(100).Width(350).Height(200).FontSize(200)
 			label.End()
 		}
 		bl.End()
