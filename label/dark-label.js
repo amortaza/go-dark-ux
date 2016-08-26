@@ -23,7 +23,7 @@ ctx.SetFillColor(vgoRGBA(234,134,60, 250))
 ctx.Text(btnx, btny, text)
 
 // test border
-if (0) {
+if (1) {
     ctx.BeginPath()
     ctx.RoundedRect(x, y, w, h, 1.0)
 

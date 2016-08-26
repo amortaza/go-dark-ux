@@ -13,24 +13,24 @@ func init() {
 
 
 // Shared variable across Div()/End()
-var gCurState *State
+var g_curState *State
 
 func Id(postfixRadioId string) *State {
 	radioId := bl.Current_Node.Id + "/" + postfixRadioId
 
-	gCurState = ensureState(radioId)
+	g_curState = ensureState(radioId)
 
-	gCurState.ChoiceLabels = list.New()
-	gCurState.ChoiceIds = list.New()
+	g_curState.ChoiceLabels = list.New()
+	g_curState.ChoiceIds = list.New()
 
-	return gCurState
+	return g_curState
 }
 
 func div() {
 
-	groupId := gCurState.GroupId
+	groupId := g_curState.GroupId
 
-	state := gCurState
+	state := g_curState
 
 	bl.Div()
 	{
@@ -65,7 +65,7 @@ func div() {
 			choice.End()
 		}
 
-		vert.Id("one").Top(50).Spacing(0).End()
+		vert.Id().Top(50).Spacing(0).End()
 	}
 }
 
@@ -73,7 +73,7 @@ func End() {
 
 	div()
 
-	state := gCurState
+	state := g_curState
 
 	bl.Pos(state.Left_, state.Top_)
 	bl.Dim(state.Width_, state.ChoiceIds.Len() * 60 + 50 + 10)
@@ -83,12 +83,12 @@ func End() {
 
 func OnClick(cb func()) {
 
-	gCurState.OnClick = cb
+	g_curState.OnClick = cb
 }
 
 func AddChoice(label string) {
 
-	gCurState.AddChoice(label)
+	g_curState.AddChoice(label)
 }
 
 

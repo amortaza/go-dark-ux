@@ -5,15 +5,7 @@ import (
 )
 
 func init() {
-	gStateByNode = make(map[string] *State)
-}
-
-type State struct {
-	LabelId                     string
-	Label_                       string
-	FontSize_	int
-
-	Left_, Top_, Width_, Height_ int
+	g_stateByNode = make(map[string] *State)
 }
 
 // Shared variable across Div()/End()
@@ -31,7 +23,7 @@ func Id(postfixLabelId string) *State {
 
 func div() {
 
-	labelId := gCurState.LabelId
+	labelId := gCurState.S_LabelId
 	state := gCurState
 
 	bl.Div()
@@ -39,8 +31,8 @@ func div() {
 		bl.Id(labelId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
-			ux_default.SetFloat("FontSize", float32(state.FontSize_))
-			ux_default.Draw(0, 0, node.Width, node.Height, state.Label_)
+			ux_default.SetFloat("FontSize", float32(state.S_FontSize))
+			ux_default.Draw(0, 0, node.Width, node.Height, state.S_Label)
 		}, false)
 
 		//border.Draw()
@@ -48,37 +40,37 @@ func div() {
 }
 
 func (s *State) Label(label string) (*State){
-	s.Label_ = label
+	s.S_Label = label
 
 	return s
 }
 
 func (s *State) FontSize(size int) (*State){
-	s.FontSize_ = size
+	s.S_FontSize = size
 
 	return s
 }
 
 func (s *State) Left(left int) (*State){
-	s.Left_ = left
+	s.S_Left = left
 
 	return s
 }
 
 func (s *State) Top(top int) (*State){
-	s.Top_ = top
+	s.S_Top = top
 
 	return s
 }
 
 func (s *State) Width(w int) (*State){
-	s.Width_ = w
+	s.S_Width = w
 
 	return s
 }
 
 func (s *State) Height(h int) (*State){
-	s.Height_ = h
+	s.S_Height = h
 
 	return s
 }
@@ -93,8 +85,8 @@ func End() {
 
 	state := gCurState
 
-	bl.Pos(state.Left_, state.Top_)
-	bl.Dim(state.Width_, state.Height_)
+	bl.Pos(state.S_Left, state.S_Top)
+	bl.Dim(state.S_Width, state.S_Height)
 
 	bl.End()
 }
