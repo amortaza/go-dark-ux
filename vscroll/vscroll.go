@@ -26,7 +26,7 @@ func GetValue(vscrollId string) float32 {
 	handleId := vscrollId + "/handle"
 	handleState := vhandle.EnsureState(handleId)
 
-	height := state.Height_ -  handleState.Height_
+	height := state.Z_Height -  handleState.Height_
 
 	value := float32(handleState.Left_) / float32(height)
 
@@ -35,7 +35,7 @@ func GetValue(vscrollId string) float32 {
 
 func div() {
 
-	vscrollId := g_curState.VScrollId
+	vscrollId := g_curState.Z_VScrollId
 
 	state := g_curState
 
@@ -47,8 +47,8 @@ func div() {
 			ux_enabled.Draw(0, 0, node.Width, node.Height, "")
 		}, false)
 
-		bl.Pos(state.Left_, state.Top_)
-		bl.Dim( 20, state.Height_,)
+		bl.Pos(state.Z_Left, state.Z_Top)
+		bl.Dim( 20, state.Z_Height,)
 
 		vhandle.Id("handle").Height(80).Thickness(20 - 2*2).Left(2).Top(2)
 		vhandle.On(state.onScrollCallback)

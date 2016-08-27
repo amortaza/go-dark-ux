@@ -5,6 +5,7 @@ type State struct {
 	S_Label                          string
 	S_FontSize                       int
 
+	S_HasBack int
 	S_ColorRed, S_ColorGreen, S_ColorBlue, S_ColorAlpha int
 	S_BackColorRed, S_BackColorGreen, S_BackColorBlue, S_BackColorAlpha int
 

@@ -6,6 +6,7 @@ import (
 	"github.com/amortaza/go-dark-ux/label"
 	"github.com/amortaza/go-bellina-plugins/layout/vert"
 	"github.com/amortaza/go-bellina-plugins/hover"
+	"github.com/amortaza/go-bellina-plugins/layout/docker"
 )
 
 func init() {
@@ -20,18 +21,18 @@ func Id(postfixId string) *State {
 
 	g_curState = ensureState(listpaneId)
 
-	g_curState.ItemLabels.Init()
+	g_curState.Z_ItemLabels.Init()
 
 	return g_curState
 }
 
 func Item(label string) {
-	g_curState.ItemLabels.PushBack(label)
+	g_curState.Z_ItemLabels.PushBack(label)
 }
 
 func div() {
 
-	listpaneId := g_curState.ListPaneId
+	listpaneId := g_curState.Z_ListPaneId
 
 	state := g_curState
 
@@ -39,8 +40,8 @@ func div() {
 	{
 		bl.Id(listpaneId)
 
-		bl.Pos(state.Left_, state.Top_)
-		bl.Dim(state.Width_, state.Height_)
+		bl.Pos(state.Z_Left, state.Z_Top)
+		bl.Dim(state.Z_Width, state.Z_Height)
 
 		border.Draw()
 	}
@@ -56,34 +57,45 @@ func End() {
 
 	state := g_curState
 
-	for e := g_curState.ItemLabels.Front(); e != nil; e = e.Next() {
+	for e := g_curState.Z_ItemLabels.Front(); e != nil; e = e.Next() {
 		itemLabel := e.Value.(string)
 
-		isHover, ok := state.ItemHover[itemLabel]
+		isHover, ok := state.Z_ItemHover[itemLabel]
 
-		size := 20
+		var textColor []int = label.White
+		hasBack := false
 
 		if ok && isHover {
-			size = 36
+			hasBack = true
+			textColor = label.Orange
 		}
 
-		label.Id(itemLabel).Width(100).Height(40).Label(itemLabel).FontSize(size).B
+		label.Id(itemLabel).Height(40).Label(itemLabel).FontSize(36).Color1v(textColor).HasBack(hasBack)
+
+		if hasBack {
+			label.BackColor4i(label.Orange[0],label.Orange[1],label.Orange[2], 50)
+		}
+
 		{
 			hover.On(func(v interface{}) {
 				e := v.(*hover.Event)
 
 				if e.IsInEvent {
-					state.ItemHover[ itemLabel ] = true
+					state.Z_ItemHover[ itemLabel ] = true
 
 				} else {
-					state.ItemHover[ itemLabel ] = false
+					state.Z_ItemHover[ itemLabel ] = false
 				}
 			})
 		}
+
+		docker.Id().AnchorLeft().AnchorRight().End()
+
 		label.End()
 	}
 
-	vert.Id().Spacing(10).Top(10).End()
+	vert.Id().Spacing(0).Top(0).End()
+
 
 	bl.End()
 }
