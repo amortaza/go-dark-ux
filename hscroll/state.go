@@ -1,11 +1,11 @@
 package hscroll
 
 type State struct {
-	HScrollId           string
+	Z_HScrollId                         string
 
-	Left_, Top_, Width_, Thickness_ int
+	Z_Left, Z_Top, Z_Width, Z_Thickness int
 
-	onScrollCallback func(float32)
+	onScrollCallback                    func(float32)
 }
 
 var g_stateById  map[string] *State
@@ -14,7 +14,7 @@ func ensureState(EditId string) *State {
 	state, ok := g_stateById[EditId]
 
 	if !ok {
-		state = &State{HScrollId: EditId, Width_: 95, Thickness_: 50}
+		state = &State{Z_HScrollId: EditId, Z_Width: 95, Z_Thickness: 50}
 
 		g_stateById[EditId] = state
 	}
@@ -23,25 +23,25 @@ func ensureState(EditId string) *State {
 }
 
 func (s *State) Left(left int) (*State){
-	s.Left_ = left
+	s.Z_Left = left
 
 	return s
 }
 
 func (s *State) Top(top int) (*State){
-	s.Top_ = top
+	s.Z_Top = top
 
 	return s
 }
 
 func (s *State) Width(w int) (*State){
-	s.Width_ = w
+	s.Z_Width = w
 
 	return s
 }
 
 func (s *State) Thickness(thickness int) (*State){
-	s.Thickness_ = thickness
+	s.Z_Thickness = thickness
 
 	return s
 }

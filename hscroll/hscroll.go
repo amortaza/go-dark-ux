@@ -18,6 +18,11 @@ func Id(postfixId string) *State {
 
 	g_curState = ensureState(hscrollId)
 
+	bl.Div()
+	{
+		bl.Id(hscrollId)
+	}
+
 	return g_curState
 }
 
@@ -27,7 +32,7 @@ func GetValue(hscrollId string) float32 {
 	handleId := hscrollId + "/handle"
 	handleState := hhandle.EnsureState(handleId)
 
-	width := state.Width_ -  handleState.Width_
+	width := state.Z_Width -  handleState.Width_
 
 	value := float32(handleState.Left_) / float32(width)
 
@@ -36,26 +41,14 @@ func GetValue(hscrollId string) float32 {
 	return value
 }
 
-func div() {
-
-	hscrollId := g_curState.HScrollId
+func SettleBoundary() {
 
 	state := g_curState
 
-	bl.Div()
 	{
-		bl.Id(hscrollId)
-
-		bl.CustomRenderer(func(node *bl.Node) {
-			ux_enabled.Draw(0, 0, node.Width, node.Height, "")
-		}, false)
-
-		bl.Pos(state.Left_, state.Top_)
-		bl.Dim(state.Width_, 20)
-
-		hhandle.Id("handle").Width(80).Thickness(20 - 2*2).Left(1).Top(2)
-		hhandle.On(state.onScrollCallback)
-		hhandle.End()
+		bl.Pos(state.Z_Left, state.Z_Top)
+		bl.Dim(state.Z_Width, 20)
+		bl.SettleBoundary()
 	}
 }
 
@@ -64,8 +57,18 @@ func On(cb func(float32)) {
 }
 
 func End() {
+	bl.RequireSettledBoundaries()
 
-	div()
+	state := g_curState
 
+	{
+		bl.CustomRenderer(func(node *bl.Node) {
+			ux_enabled.Draw(0, 0, node.Width, node.Height, "")
+		}, false)
+
+		hhandle.Id("handle").Width(80).Thickness(20 - 2*2).Left(1).Top(2)
+		hhandle.On(state.onScrollCallback)
+		hhandle.End()
+	}
 	bl.End()
 }

@@ -35,12 +35,14 @@ func tick() {
 			vscroll.On(func(v float32) {
 				i = int(v * 101)
 			})
+			vscroll.Settle()
 			vscroll.End()
 
 			vscroll.Id("wow2").Left(480).Top(30).Height(450)
 			vscroll.On(func(v float32) {
 				i = int(v * 101)
 			})
+			vscroll.Settle()
 			vscroll.End()
 
 			hscroll.Id("wow3").Left(30).Top(20).Width(450)

@@ -6,7 +6,8 @@ import (
 	"github.com/amortaza/go-bellina"
 	"github.com/amortaza/go-hal-oob"
 	"github.com/amortaza/go-dark-ux"
-	"github.com/amortaza/go-dark-ux/listpane"
+	"github.com/amortaza/go-dark-ux/listpane-scroll"
+	"github.com/amortaza/go-dark-ux/border"
 )
 
 func initialize() {
@@ -26,20 +27,9 @@ func tick() {
 			bl.Pos(10,10)
 			bl.Dim(780,680)
 
-			listpane.Id("wow2").Left(30).Top(30).Width(250).Height(250)
-			listpane.On(func(v float32) {
-				//i = int(v * 101)
-			})
-			listpane.Item("One")
-			listpane.Item("Two")
-			listpane.Item("Three")
-			listpane.Item("Four")
-			listpane.Item("Five")
-			listpane.End()
+			listpane_scroll.Id("wow2").Left(30).Top(30).Width(250).Height(250).End()
 
-			//label.Id("label").Label(strconv.Itoa(i)+"%").Left(250).Top(100).Width(350).Height(200).FontSize(200)
-			//border.Draw()
-			//label.End()
+			border.Draw()
 		}
 		bl.End()
 	}

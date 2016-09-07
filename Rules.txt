@@ -1,0 +1,6 @@
+1. bl.Div() and bl.Id() goes in plugin.Id()
+    - if not, then things like Docker plugin will not work
+
+2. Set left, top, width, height BEFORE using plugins
+
+3. Need to flush()

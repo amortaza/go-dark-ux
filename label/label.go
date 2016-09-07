@@ -14,8 +14,7 @@ func init() {
 // Shared variable across Div()/End()
 var g_curState *State
 
-func Id(postfixLabelId string) *State {
-	labelId := bl.Current_Node.Id + "/" + postfixLabelId
+func Id(labelId string) *State {
 
 	g_curState = ensureState(labelId)
 

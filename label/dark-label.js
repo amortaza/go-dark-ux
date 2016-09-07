@@ -1,5 +1,4 @@
 ctx.BeginFrame(w, h, 1.0)
-
 x++
 y++
 w -= 2
@@ -17,7 +16,7 @@ ctx.SetFontFace("sans")
 
 ctx.SetTextAlign(vgoAlignLeft | vgoAlignMiddle)
 
-var btnx = w / 2 - sysGetTextWidth(text) / 2
+var btnx = 10.0 // w / 120 - sysGetTextWidth(text) / 120
 var btny = h / 2 - 1
 
 ctx.SetFontBlur(1.0)

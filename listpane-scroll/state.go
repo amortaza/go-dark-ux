@@ -1,9 +1,9 @@
-package listpane
+package listpane_scroll
 
 type State struct {
-	ListPaneId                   string
+	ListPaneScrollId                 string
 
-	Left_, Top_, Width_, Height_ int
+	Z_Left, Z_Top, Z_Width, Z_Height int
 }
 
 var g_stateById  map[string] *State
@@ -12,7 +12,7 @@ func ensureState(EditId string) *State {
 	state, ok := g_stateById[EditId]
 
 	if !ok {
-		state = &State{ListPaneId: EditId, Width_: 95, Height_: 150}
+		state = &State{ListPaneScrollId: EditId, Z_Width: 95, Z_Height: 150}
 
 		g_stateById[EditId] = state
 	}
@@ -21,25 +21,25 @@ func ensureState(EditId string) *State {
 }
 
 func (s *State) Left(left int) (*State){
-	s.Left_ = left
+	s.Z_Left = left
 
 	return s
 }
 
 func (s *State) Top(top int) (*State){
-	s.Top_ = top
+	s.Z_Top = top
 
 	return s
 }
 
 func (s *State) Width(w int) (*State){
-	s.Width_ = w
+	s.Z_Width = w
 
 	return s
 }
 
 func (s *State) Height(h int) (*State){
-	s.Height_ = h
+	s.Z_Height = h
 
 	return s
 }
