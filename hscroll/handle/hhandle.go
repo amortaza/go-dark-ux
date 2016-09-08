@@ -61,8 +61,8 @@ func End() {
 		maxLeft := totalWidth - handle.Width - 1
 		handleLeft = int(math.Min(float64(maxLeft), float64(handleLeft)))
 
-		bl.EnsureShadowByNode(handle).PosLeft__Self_and_Node(handleLeft, "hhandle")
-		bl.EnsureShadowByNode(handle).PosTop__Self_and_Node(2, "hhandle")
+		bl.EnsureShadowByNode(handle).Left__Self_and_Node(handleLeft, "hhandle")
+		bl.EnsureShadowByNode(handle).Top__Self_and_Node(2, "hhandle")
 
 		//pctStart := float32(handle.Left) / float32(totalWidth)
 		//pctEnd := float32(handle.Left + handle.Width) / float32(totalWidth)
@@ -75,7 +75,7 @@ func End() {
 		state.onScrollCallback(pct)
 	})
 
-	bl.EnsureShadow().PosTop__Node_Only("hhandle")
+	bl.EnsureShadow().Top__Node_Only("hhandle")
 
 	bl.End()
 }

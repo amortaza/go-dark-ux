@@ -61,15 +61,8 @@ func End() {
 		maxTop := totalHeight - handle.Height - 1
 		handleTop = int(math.Min(float64(maxTop), float64(handleTop)))
 
-		bl.EnsureShadowByNode(handle).PosLeft__Self_and_Node(2, "vhandle")
-		bl.EnsureShadowByNode(handle).PosTop__Self_and_Node(handleTop, "vhandle")
-
-		//pctStart := float32(handle.Left) / float32(totalWidth)
-		//pctEnd := float32(handle.Left + handle.Width) / float32(totalWidth)
-
-		//if cb != nil {
-		//	cb(newEvent(pctStart, pctEnd))
-		//}
+		bl.EnsureShadowByNode(handle).Left__Self_and_Node(2, "*")
+		bl.EnsureShadowByNode(handle).Top__Self_and_Node(handleTop, "*")
 
 		var pct float32 = float32(handleTop) / (float32(handle.Parent.Height) - float32(handle.Height))
 
@@ -78,8 +71,10 @@ func End() {
 		}
 	})
 
-	bl.EnsureShadow().PosLeft__Node_Only("vhandle")
-	//bl.EnsureShadow().PosTop__Node_Only()
+	shadow := bl.EnsureShadow()
+
+	shadow.Left__Node_Only("*")
+	shadow.Top__Node_Only("*")
 
 	bl.End()
 }

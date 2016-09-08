@@ -55,8 +55,6 @@ func On(cb func(float32)) {
 
 func SettleKids() {
 	{
-
-
 		listpane.Id("BBB").Width(300).Height(200).Left(10).Top(10).SettleBoundary()
 		{
 			listpane.Item("1 One")
