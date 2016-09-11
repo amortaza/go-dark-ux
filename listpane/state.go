@@ -9,17 +9,20 @@ type State struct {
 
 	Z_ItemLabels                     *list.List
 	Z_ItemHover                      map[string] bool
+
+	offset int
+	paneId string
 }
 
 var g_stateById  map[string] *State
 
-func ensureState(EditId string) *State {
-	state, ok := g_stateById[EditId]
+func ensureState(listpaneId string) *State {
+	state, ok := g_stateById[listpaneId]
 
 	if !ok {
-		state = &State{Z_ListPaneId: EditId, Z_Width: 95, Z_Height: 150, Z_ItemLabels: list.New(), Z_ItemHover: make(map[string] bool)}
+		state = &State{Z_ListPaneId: listpaneId, paneId: listpaneId + "/pane", Z_Width: 95, Z_Height: 150, Z_ItemLabels: list.New(), Z_ItemHover: make(map[string] bool)}
 
-		g_stateById[EditId] = state
+		g_stateById[listpaneId] = state
 	}
 
 	return state

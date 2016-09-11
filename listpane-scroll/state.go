@@ -1,20 +1,23 @@
 package listpane_scroll
 
 type State struct {
-	ListPaneScrollId                 string
+	ScrollId                         string
+
+	listpaneId string
+	vscrollId string
 
 	Z_Left, Z_Top, Z_Width, Z_Height int
 }
 
 var g_stateById  map[string] *State
 
-func ensureState(EditId string) *State {
-	state, ok := g_stateById[EditId]
+func ensureState(scrollId, listpaneId, vscrollId string) *State {
+	state, ok := g_stateById[scrollId]
 
 	if !ok {
-		state = &State{ListPaneScrollId: EditId, Z_Width: 95, Z_Height: 150}
+		state = &State{ScrollId: scrollId, listpaneId: listpaneId, vscrollId: vscrollId, Z_Width: 95, Z_Height: 150}
 
-		g_stateById[EditId] = state
+		g_stateById[scrollId] = state
 	}
 
 	return state

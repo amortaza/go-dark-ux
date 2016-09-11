@@ -9,7 +9,6 @@ func init() {
 	g_stateById = make(map[string] *State)
 }
 
-// Shared variable across Div()/End()
 var g_curState *State
 
 func Id(vscrollId string) *State {
@@ -45,7 +44,7 @@ func (s *State) SettleBoundary() {
 	}
 }
 
-func Settle() {
+func SettleBoundary() {
 	g_curState.SettleBoundary()
 }
 

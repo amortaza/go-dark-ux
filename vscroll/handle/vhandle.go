@@ -61,8 +61,10 @@ func End() {
 		maxTop := totalHeight - handle.Height - 1
 		handleTop = int(math.Min(float64(maxTop), float64(handleTop)))
 
-		bl.EnsureShadowByNode(handle).Left__Self_and_Node(2, "*")
-		bl.EnsureShadowByNode(handle).Top__Self_and_Node(handleTop, "*")
+		shadow := bl.EnsureShadowByNode(handle)
+
+		shadow.Left__Self_and_Node(2, "*")
+		shadow.Top__Self_and_Node(handleTop, "*")
 
 		var pct float32 = float32(handleTop) / (float32(handle.Parent.Height) - float32(handle.Height))
 

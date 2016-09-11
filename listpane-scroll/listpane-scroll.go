@@ -8,27 +8,35 @@ import (
 	"github.com/amortaza/go-dark-ux/vscroll"
 	"github.com/amortaza/go-bellina-plugins/layout/side-glue"
 	"fmt"
+	"github.com/amortaza/go-bellina-plugins/layout/padpush"
+	"github.com/amortaza/go-bellina-plugins/layout/padsize"
+	"github.com/amortaza/go-bellina-plugins/resize"
 )
 
 func fake() {
+    var _ = resize.Use
     var _ = fmt.Println
+    var _ = padpush.Id
+    var _ = listpane.End
+    var _ = docker.Id
+    var _ = vscroll.End
+    var _ = sideglue.Id
+    var _ = padsize.Id
 }
 
 func init() {
 	g_stateById = make(map[string] *State)
 }
 
-// Shared variable across Div()/End()
 var g_curState *State
 
-func Id(postfixId string) *State {
-	lpScrollId := bl.Current_Node.Id + "/" + postfixId
+func Id(scrollId string) *State {
 
-	g_curState = ensureState(lpScrollId)
+	g_curState = ensureState(scrollId, scrollId + "/listpane", scrollId + "/vscroll" )
 
 	bl.Div()
 	{
-		bl.Id(lpScrollId)
+		bl.Id(scrollId)
 	}
 
 	return g_curState
@@ -38,9 +46,11 @@ func (s *State) SettleBoundary() {
 	{
 		bl.Pos(s.Z_Left, s.Z_Top)
 		bl.Dim(s.Z_Width, s.Z_Height)
+		//bl.Dim(500,500)
 		bl.SettleBoundary()
 
-		border.Draw()
+		//border.Fill(0,0,100)
+		border.Wire()
 	}
 }
 
@@ -54,42 +64,60 @@ func On(cb func(float32)) {
 }
 
 func SettleKids() {
-	{
-		listpane.Id("BBB").Width(300).Height(200).Left(10).Top(10).SettleBoundary()
-		{
-			listpane.Item("1 One")
-			listpane.Item("2 Two")
-			listpane.Item("3 Three")
-			listpane.Item("4 Four")
-			listpane.Item("5 Five")
-			listpane.Item("6 Six")
+	// todo
+	// check that if settle kids is getting called 2x blow up
 
-			listpane.SettleKids()
-
-			sideglue.Id().LeftNodeId("BBB").RightNodeId("CCC").End()
-
-			docker.Id().AnchorLeft().AnchorBottom().AnchorTop().End()
-		}
-		listpane.End()
-
-		vscroll.Id("CCC").Left(10).Top(10).SettleBoundary()
-		{
-			docker.Id().AnchorRight().AnchorBottom().AnchorTop().End()
-		}
-		vscroll.End()
-
-
-		// to do
-		//parentNode := bl.GetNodeById("<listpane-scroll : listpane>")
-		//fmt.Println("(8) Width ", parentNode.Id, " : ", parentNode.Width)
-	}
+	listPaneAndVScroll()
 
 	bl.SettleKids()
+
+	//resize.Use()
+
+	//padpush.Id().Right(0).End()
+}
+
+func listPaneAndVScroll() {
+	listpaneId := g_curState.listpaneId
+	vscrollId := g_curState.vscrollId
+
+	listpane.Id( listpaneId ).Width(300).Height(40).Left(10).Top(10).SettleBoundary()
+	{
+		listpane.Item("1 One")
+		listpane.Item("2 Two")
+		listpane.Item("3 Three")
+		listpane.Item("4 Four")
+		listpane.Item("5 Five")
+		listpane.Item("6 Six")
+		listpane.Item("7 Seven")
+		listpane.Item("8 Eight")
+		listpane.Item("9 Nine")
+		listpane.Item("10 Ten")
+
+		listpane.SettleKids()
+
+		docker.Id().AnchorLeft(0).AnchorBottom(0).AnchorTop(0).End()
+		//border.Fill(50,0,0)
+	}
+	listpane.End()
+
+	vscroll.Id(vscrollId).Left(10).Top(10).SettleBoundary()
+	{
+		vscroll.On(func(value float32) {
+			listpane.ScrollToPercent(listpaneId, value)
+		})
+
+		docker.Id().AnchorRight(0).AnchorBottom(0).AnchorTop(0).End()
+	}
+	vscroll.End()
+
+	sideglue.Id().LeftNodeId(listpaneId).RightNodeId(vscrollId).End()
 }
 
 func End() {
 
-	SettleKids()
+	// todo
+	// do not call SettleKids here because it could get called 2x
+	// should check if !settle kids and THEN call settle kids!!!!!!
 
 	bl.RequireSettledBoundaries()
 	bl.RequireSettledKids()

@@ -13,8 +13,7 @@ func init() {
 // Shared variable across Div()/End()
 var g_curState *State
 
-func Id(postfixId string) *State {
-	hscrollId := bl.Current_Node.Id + "/" + postfixId
+func Id(hscrollId string) *State {
 
 	g_curState = ensureState(hscrollId)
 
@@ -41,7 +40,7 @@ func GetValue(hscrollId string) float32 {
 	return value
 }
 
-func SettleBoundary() {
+func (s *State) SettleBoundary() {
 
 	state := g_curState
 
@@ -52,6 +51,9 @@ func SettleBoundary() {
 	}
 }
 
+func SettleBoundary() {
+	g_curState.SettleBoundary()
+}
 func On(cb func(float32)) {
 	g_curState.onScrollCallback = cb
 }

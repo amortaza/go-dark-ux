@@ -38,7 +38,7 @@ func tick() {
 			hscroll.End()
 
 			label.Id("label").Label(strconv.Itoa(i)+"%").Left(250).Top(100).Width(350).Height(200).FontSize(200)
-			border.Draw()
+			border.Wire()
 			label.End()
 		}
 		bl.End()

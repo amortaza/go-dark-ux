@@ -12,13 +12,17 @@ import (
 
 func fake() {
     var _ = fmt.Println
+    var _ = label.Orange
+    var _ = vert.Id
+    var _ = hover.On
+    var _ = docker.Id
+    var _ = border.Fill
 }
 
 func init() {
 	g_stateById = make(map[string] *State)
 }
 
-// Shared variable across Div()/End()
 var g_curState *State
 
 func Id(listpaneId string) *State {
@@ -43,7 +47,9 @@ func (s *State) SettleBoundary() {
 	bl.Dim(s.Z_Width, s.Z_Height)
 	bl.SettleBoundary()
 
-	border.Draw()
+	//border.Fill(0,100,0)
+	//border.WireOrFill(0,100,0, false)
+	border.Wire()
 }
 
 func SettleBoundary() {
@@ -57,53 +63,57 @@ func On(cb func(float32)) {
 func SettleKids() {
 	state := g_curState
 
-	for e := state.Z_ItemLabels.Front(); e != nil; e = e.Next() {
-		itemLabel := e.Value.(string)
+	bl.Div()
+	{
+		bl.Id(state.paneId)
+		bl.Dim(300,1000)
+		bl.Pos(0, state.offset)
+		bl.SettleBoundary()
+		border.Fill(100,0,0)
 
-		isHover, ok := state.Z_ItemHover[itemLabel]
+		for e := state.Z_ItemLabels.Front(); e != nil; e = e.Next() {
+			itemLabel := e.Value.(string)
 
-		var textColor []int = label.White
-		hasBack := false
+			isHover, ok := state.Z_ItemHover[itemLabel]
 
-		if ok && isHover {
-			hasBack = true
-			textColor = label.Orange
-		}
+			var textColor []int = label.White
+			hasBack := false
 
-		label.Id(itemLabel).Width(200).Height(40).Label(itemLabel).FontSize(30).Color1v(textColor).HasBack(hasBack)
-		{
-
-			if hasBack {
-				label.BackColor4i(label.Orange[0], label.Orange[1], label.Orange[2], 50)
+			if ok && isHover {
+				hasBack = true
+				textColor = label.Orange
 			}
 
+			label.Id(itemLabel).Width(200).Height(40).Label(itemLabel).FontSize(30).Color1v(textColor).HasBack(hasBack)
 			{
-				hover.On(func(v interface{}) {
-					e := v.(*hover.Event)
+				if hasBack {
+					label.BackColor4i(label.Orange[0], label.Orange[1], label.Orange[2], 50)
+				}
 
-					if e.IsInEvent {
-						state.Z_ItemHover[ itemLabel ] = true
+				{
+					hover.On(func(v interface{}) {
+						e := v.(*hover.Event)
 
-					} else {
-						state.Z_ItemHover[ itemLabel ] = false
-					}
-				})
+						if e.IsInEvent {
+							state.Z_ItemHover[ itemLabel ] = true
+
+						} else {
+							state.Z_ItemHover[ itemLabel ] = false
+						}
+					})
+				}
+
+				bl.SettleBoundary()
+
+				docker.Id().AnchorLeft(0).AnchorRight(0).End()
 			}
-
-			bl.SettleBoundary()
-			//border.Draw()
-
-			//bl.PushFunc(func() {
-			//	fmt.Println("(0) Label Docker!", )
-			//	bl.DivId(itemLabel)
-				docker.Id().AnchorLeft().AnchorRight().End()
-				//bl.End()
-			//})
+			label.End()
 		}
-		label.End()
-	}
 
-	vert.Id().Spacing(0).Top(0).End()
+		vert.Id().Spacing(0).Top(0).End()
+		docker.Id().AnchorLeft(0).AnchorRight(0).End()
+	}
+	bl.End()
 
 	bl.SettleKids()
 }
@@ -112,8 +122,6 @@ func End() {
 
 	bl.RequireSettledBoundaries()
 	bl.RequireSettledKids()
-
-	//fmt.Println("(4) listpane width ", bl.Current_Node.Id, " : ", bl.Current_Node.Width)
 
 	bl.End()
 }

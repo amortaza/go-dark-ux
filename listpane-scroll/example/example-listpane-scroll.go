@@ -29,7 +29,7 @@ func tick() {
 
 			listpane_scroll.Id("wow2").Left(30).Top(30).Width(250).Height(250).End()
 
-			border.Draw()
+			border.Wire()
 		}
 		bl.End()
 	}
