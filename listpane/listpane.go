@@ -69,7 +69,7 @@ func SettleKids() {
 		bl.Dim(300,1000)
 		bl.Pos(0, state.offset)
 		bl.SettleBoundary()
-		border.Fill(100,0,0)
+		//border.Fill(100,0,0)
 
 		for e := state.Z_ItemLabels.Front(); e != nil; e = e.Next() {
 			itemLabel := e.Value.(string)
