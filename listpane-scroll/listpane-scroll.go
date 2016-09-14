@@ -102,6 +102,7 @@ func listPaneAndVScroll() {
 
 	vscroll.Id(vscrollId).Left(10).Top(10).SettleBoundary()
 	{
+
 		vscroll.On(func(value float32) {
 			listpane.ScrollToPercent(listpaneId, value)
 		})

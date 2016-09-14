@@ -69,7 +69,9 @@ func SettleKids() {
 		bl.Dim(300,1000)
 		bl.Pos(0, state.offset)
 		bl.SettleBoundary()
-		//border.Fill(100,0,0)
+		border.Fill(100,0,0)
+
+		docker.Id().AnchorLeft(0).AnchorRight(0).End()
 
 		for e := state.Z_ItemLabels.Front(); e != nil; e = e.Next() {
 			itemLabel := e.Value.(string)
@@ -111,7 +113,7 @@ func SettleKids() {
 		}
 
 		vert.Id().Spacing(0).Top(0).End()
-		docker.Id().AnchorLeft(0).AnchorRight(0).End()
+
 	}
 	bl.End()
 
