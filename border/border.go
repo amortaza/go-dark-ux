@@ -18,7 +18,7 @@ func Wire() {
 		ux_default.SetInt("inGreen", 0)
 		ux_default.SetInt("inBlue", 0)
 		ux_default.Draw(0, 0, node.Width, node.Height, "")
-	}, true)
+	}, false)
 }
 
 func Fill(r,g,b int) {
