@@ -7,22 +7,7 @@ import (
 	"github.com/amortaza/go-bellina-plugins/layout/docker"
 	"github.com/amortaza/go-dark-ux/vscroll"
 	"github.com/amortaza/go-bellina-plugins/layout/side-glue"
-	"fmt"
-	"github.com/amortaza/go-bellina-plugins/layout/padpush"
-	"github.com/amortaza/go-bellina-plugins/layout/padsize"
-	"github.com/amortaza/go-bellina-plugins/resize"
 )
-
-func fake() {
-    var _ = resize.Use
-    var _ = fmt.Println
-    var _ = padpush.Id
-    var _ = listpane.End
-    var _ = docker.Id
-    var _ = vscroll.End
-    var _ = sideglue.Id
-    var _ = padsize.Id
-}
 
 func init() {
 	g_stateById = make(map[string] *State)
@@ -120,7 +105,7 @@ func End() {
 	// do not call SettleKids here because it could get called 2x
 	// should check if !settle kids and THEN call settle kids!!!!!!
 
-	bl.RequireSettledBoundaries()
+	bl.RequireSettledBoundary()
 	bl.RequireSettledKids()
 
 	bl.End()

@@ -7,17 +7,7 @@ import (
 	"github.com/amortaza/go-bellina-plugins/layout/vert"
 	"github.com/amortaza/go-bellina-plugins/hover"
 	"github.com/amortaza/go-bellina-plugins/layout/docker"
-	"fmt"
 )
-
-func fake() {
-    var _ = fmt.Println
-    var _ = label.Orange
-    var _ = vert.Id
-    var _ = hover.On
-    var _ = docker.Id
-    var _ = border.Fill
-}
 
 func init() {
 	g_stateById = make(map[string] *State)
@@ -69,7 +59,7 @@ func SettleKids() {
 		bl.Dim(300,1000)
 		bl.Pos(0, state.offset)
 		bl.SettleBoundary()
-		border.Fill(100,0,0)
+		//border.Fill(100,0,0)
 
 		docker.Id().AnchorLeft(0).AnchorRight(0).End()
 
@@ -95,6 +85,18 @@ func SettleKids() {
 				{
 					hover.On(func(v interface{}) {
 						e := v.(*hover.Event)
+
+						hover.AddDirtyCall(func() {
+							bl.GetNodeById(e.InNodeId).Dirty = true
+
+							if e.OutNodeId != "" {
+								o := bl.GetNodeById(e.OutNodeId)
+
+								if o != nil {
+									o.Dirty = true
+								}
+							}
+						})
 
 						if e.IsInEvent {
 							state.Z_ItemHover[ itemLabel ] = true
@@ -122,7 +124,7 @@ func SettleKids() {
 
 func End() {
 
-	bl.RequireSettledBoundaries()
+	bl.RequireSettledBoundary()
 	bl.RequireSettledKids()
 
 	bl.End()

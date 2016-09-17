@@ -59,7 +59,7 @@ func On(cb func(float32)) {
 }
 
 func End() {
-	bl.RequireSettledBoundaries()
+	bl.RequireSettledBoundary()
 
 	state := g_curState
 
