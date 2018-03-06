@@ -8,7 +8,7 @@ import (
 var ux_default *ux.Entity
 
 func init() {
-	ux_default = &ux.Entity{File:"c:/go-proj/src/github.com/amortaza/go-dark-ux/border/dark-border.js"}
+	ux_default = &ux.Entity{Filename:"github.com/amortaza/go-dark-ux/border/dark-border.js"}
 }
 
 func Wire() {

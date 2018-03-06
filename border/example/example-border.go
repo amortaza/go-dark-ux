@@ -34,6 +34,7 @@ func tick() {
 }
 
 func uninit() {
+	go_dark_ux.Uninit()
 }
 
 func init() {
@@ -41,7 +42,7 @@ func init() {
 }
 
 func main() {
-	bl.Start( haloob.New(), 1280, 1024, "Bellina v0.2", initialize, tick, uninit )
+	bl.Start( hal_g5.NewHal(), "Dark UX", 1280, 1024, initialize, tick, uninit )
 
 	fmt.Println("bye!")
 }
