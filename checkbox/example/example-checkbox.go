@@ -27,31 +27,31 @@ func tick() {
 			bl.Pos(10,10)
 			bl.Dim(640,480)
 
-			checkbox.Id("1").Label("Hi!").Left(10).Top(10).Width(160).Height(60)
+			checkbox.Id("1").Label("Enabled Checked").Left(10).Top(10).Width(160).Height(60).Checked(false)
 			checkbox.OnClick(func() {
 				fmt.Println("checkbox clicked")
 			})
 			checkbox.End()
 
-			checkbox.Id("2").Label("Hi!").Left(10).Top(100).Width(160).Height(60).Enabled(true).Checked(false)
+			checkbox.Id("2").Label("Enabled").Left(10).Top(100).Width(160).Height(60).Enabled(true).Checked(true)
 			checkbox.OnClick(func() {
 				fmt.Println("checkbox clicked")
 			})
 			checkbox.End()
 
-			checkbox.Id("3").Label("Hi!").Left(10).Top(190).Width(160).Height(60).Enabled(false).Checked(true)
+			checkbox.Id("3").Label("Disabled Checked").Left(10).Top(190).Width(160).Height(60).Enabled(false).Checked(true)
 			checkbox.OnClick(func() {
 				fmt.Println("checkbox clicked")
 			})
 			checkbox.End()
 
-			checkbox.Id("4").Label("Hi!").Left(10).Top(280).Width(160).Height(60).Enabled(false).Checked(false)
+			checkbox.Id("4").Label("Disabled Unchecked").Left(10).Top(280).Width(160).Height(60).Enabled(false).Checked(false)
 			checkbox.OnClick(func() {
 				fmt.Println("checkbox clicked")
 			})
 			checkbox.End()
 
-			button.Id("mybutton").Label("Bye!").Left(10).Top(370).Width(160).Height(60)
+			button.Id("mybutton").Label("Enabled").Left(10).Top(370).Width(160).Height(60)
 			button.OnClick(func() {
 				fmt.Println("button clicked")
 			})
@@ -70,7 +70,7 @@ func init() {
 }
 
 func main() {
-	bl.Start( haloob.New(), 1280, 1024, "Bellina v0.2", initialize, tick, uninit )
+	bl.Start( hal_g5.NewHal(), "Bellina v0.2", 1280, 1024, initialize, tick, uninit )
 
 	fmt.Println("bye!")
 }

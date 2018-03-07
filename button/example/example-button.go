@@ -31,12 +31,12 @@ func tick() {
 				fmt.Println("clicked")
 			})
 			button.End()
-
-			button.Id("2").Label("Bye!").Left(x).Top(90).Width(160).Height(60)
-			button.OnClick(func() {
-				fmt.Println("clicked")
-			})
-			button.End()
+			//
+			//button.Id("2").Label("Bye!").Left(x).Top(90).Width(160).Height(60)
+			//button.OnClick(func() {
+			//	fmt.Println("clicked")
+			//})
+			//button.End()
 
 			//x += 3
 		}
@@ -53,7 +53,7 @@ func init() {
 }
 
 func main() {
-	bl.Start( haloob.New(), 1280, 1024, "Bellina v0.2", initialize, tick, uninit )
+	bl.Start( hal_g5.NewHal(), "Bellina v0.2", 1024, 768, initialize, tick, uninit )
 
 	fmt.Println("bye!")
 }

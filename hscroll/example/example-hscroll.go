@@ -38,7 +38,7 @@ func tick() {
 			hscroll.End()
 
 			label.Id("label").Label(strconv.Itoa(i)+"%").Left(250).Top(100).Width(350).Height(200).FontSize(200)
-			border.Wire()
+			border.Wire(255, 255, 0)
 			label.End()
 		}
 		bl.End()
@@ -54,7 +54,7 @@ func init() {
 }
 
 func main() {
-	bl.Start( haloob.New(), 1280, 1024, "Bellina v0.2", initialize, tick, uninit )
+	bl.Start( hal_g5.NewHal(), "Bellina v0.2", 1280, 1024, initialize, tick, uninit )
 
 	fmt.Println("bye!")
 }

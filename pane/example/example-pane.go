@@ -28,7 +28,7 @@ func tick() {
 			bl.Pos(x,10)
 			bl.Dim(640,480)
 
-			pane.Id("mypane").Label("Cool").Left(10).Top(10).Width(500).Height(400).End()
+			pane.Id("mypane").Label("Cool").End()
 
 			checkbox.Id("mycheckbox").Label("Hi!").Left(30).Top(30).Width(160).Height(60)
 			checkbox.OnClick(func() {
@@ -58,7 +58,7 @@ func init() {
 }
 
 func main() {
-	bl.Start( haloob.New(), 1280, 1024, "Bellina v0.2", initialize, tick, uninit )
+	bl.Start( hal_g5.NewHal(), "Bellina v0.2", 1280, 1024, initialize, tick, uninit )
 
 	fmt.Println("bye!")
 }

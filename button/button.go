@@ -6,7 +6,9 @@ import (
 )
 
 type State struct {
+
 	ButtonId                     string
+
 	IsHover                      bool
 	IsDown                       bool
 	IsEnabled                    bool
@@ -16,16 +18,20 @@ type State struct {
 	Left_, Top_, Width_, Height_ int
 
 	OnClick                      func()
+
+	Dirty bool
 }
 
 // Shared variable across Div()/End()
 var gCurState *State
 
 func init() {
+
 	gStateByNode = make(map[string] *State)
 }
 
 func Id(postfixButtonId string) *State {
+	
 	buttonId := bl.Current_Node.Id + "/" + postfixButtonId
 
 	gCurState = ensureState(buttonId)
@@ -66,36 +72,42 @@ func div() {
 }
 
 func (s *State) Label(label string) (*State){
+
 	s.Label_ = label
 
 	return s
 }
 
 func (s *State) Left(left int) (*State){
+
 	s.Left_ = left
 
 	return s
 }
 
 func (s *State) Top(top int) (*State){
+
 	s.Top_ = top
 
 	return s
 }
 
 func (s *State) Width(w int) (*State){
+
 	s.Width_ = w
 
 	return s
 }
 
 func (s *State) Height(h int) (*State){
+
 	s.Height_ = h
 
 	return s
 }
 
 func (s *State) End() (*State){
+
 	End()
 
 	return s
@@ -122,11 +134,13 @@ func End() {
 
 	//fmt.Println(state.Left_, state.Top_, state.Width_, state.Height_)
 
-	click.On2(
+	click.On_WithLifeCycle(
 
 		// click
 		func(i interface{}) {
+
 			state.IsDown = false
+			state.Dirty = true
 
 			if state.IsEnabled && state.OnClick != nil {
 				state.OnClick()
@@ -135,16 +149,25 @@ func End() {
 
 		// on down
 		func(i interface{}) {
+
 			state.IsDown = true
+			state.Dirty = true
 		},
 
 		// on miss
 		func(i interface{}) {
+
 			state.IsDown = false
+			state.Dirty = true
 		} )
 
 	bl.Pos(state.Left_, state.Top_)
 	bl.Dim(state.Width_, state.Height_)
+
+	if state.Dirty {
+		bl.Dirty()
+		state.Dirty = false
+	}
 
 	bl.End()
 }

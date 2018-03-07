@@ -29,7 +29,7 @@ func tick() {
 
 			listpane_scroll.Id("wow2").Left(30).Top(30).Width(250).Height(250).End()
 
-			border.Wire()
+			border.Wire(255, 255, 0)
 		}
 		bl.End()
 	}
@@ -44,7 +44,7 @@ func init() {
 }
 
 func main() {
-	bl.Start( haloob.New(), 1280, 1024, "Bellina v0.2", initialize, tick, uninit )
+	bl.Start( hal_g5.NewHal(), "Bellina v0.2", 1280, 1024, initialize, tick, uninit )
 
 	fmt.Println("bye!")
 }

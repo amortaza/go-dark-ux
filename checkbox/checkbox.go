@@ -9,22 +9,11 @@ func init() {
 	gStateByNode = make(map[string] *State)
 }
 
-type State struct {
-	CheckboxId                   string
-	IsChecked                    bool
-	IsEnabled                    bool
-
-	Label_                       string
-
-	Left_, Top_, Width_, Height_ int
-
-	OnClick                      func()
-}
-
 // Shared variable across Div()/End()
 var gCurState *State
 
 func Id(postfixCheckboxId string) *State {
+
 	buttonId := bl.Current_Node.Id + "/" + postfixCheckboxId
 
 	gCurState = ensureState(buttonId)
@@ -32,11 +21,6 @@ func Id(postfixCheckboxId string) *State {
 	div()
 
 	return gCurState
-}
-
-func (s *State) On(cb func(interface{})) {
-
-	gCurState = s
 }
 
 func div() {
@@ -50,9 +34,12 @@ func div() {
 		bl.Id(checkboxId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
+
 			if state.IsChecked {
+
 				if state.IsEnabled {
 					ux_checked.Draw(0, 0, node.Width, node.Height, state.Label_)
+
 				} else {
 					ux_checked_disabled.Draw(0, 0, node.Width, node.Height, state.Label_)
 				}
@@ -60,6 +47,7 @@ func div() {
 			} else {
 				if state.IsEnabled {
 					ux_unchecked.Draw(0, 0, node.Width, node.Height, state.Label_)
+
 				} else {
 					ux_unchecked_disabled.Draw(0, 0, node.Width, node.Height, state.Label_)
 				}
@@ -67,54 +55,6 @@ func div() {
 
 		}, false)
 	}
-}
-
-func (s *State) Label(label string) (*State){
-	s.Label_ = label
-
-	return s
-}
-
-func (s *State) Left(left int) (*State){
-	s.Left_ = left
-
-	return s
-}
-
-func (s *State) Top(top int) (*State){
-	s.Top_ = top
-
-	return s
-}
-
-func (s *State) Width(w int) (*State){
-	s.Width_ = w
-
-	return s
-}
-
-func (s *State) Height(h int) (*State){
-	s.Height_ = h
-
-	return s
-}
-
-func (s *State) Enabled(enabled bool) (*State){
-	s.IsEnabled = enabled
-
-	return s
-}
-
-func (s *State) Checked(checked bool) (*State){
-	s.IsChecked = checked
-
-	return s
-}
-
-func (s *State) End() (*State){
-	End()
-
-	return s
 }
 
 func OnClick(cb func()) {
@@ -126,14 +66,19 @@ func End() {
 
 	state := gCurState
 
-	click.On2(
+	click.On_WithLifeCycle(
 
 		// click
 		func(i interface{}) {
-			state.IsChecked = !state.IsChecked
 
-			if state.IsEnabled && state.OnClick != nil {
-				state.OnClick()
+			if state.IsEnabled {
+
+				state.IsChecked = !state.IsChecked
+				state.Dirty = true
+
+				if state.OnClick != nil {
+					state.OnClick()
+				}
 			}
 		},
 
@@ -148,6 +93,13 @@ func End() {
 	bl.Pos(state.Left_, state.Top_)
 	bl.Dim(state.Width_, state.Height_)
 
+	if state.Dirty {
+		bl.Dirty()
+		state.Dirty = false
+	}
+
 	bl.End()
+
+	state.ValuesComeFromSourceCode = false
 }
 

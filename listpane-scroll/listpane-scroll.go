@@ -35,7 +35,7 @@ func (s *State) SettleBoundary() {
 		bl.SettleBoundary()
 
 		//border.Fill(0,0,100)
-		border.Wire()
+		border.Wire(255, 255, 0)()
 	}
 }
 

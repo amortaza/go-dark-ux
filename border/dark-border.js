@@ -13,8 +13,7 @@ ctx.BeginFrame(w, h, 1.0)
 		ctx.Fill()
 	}
 
-    var c = 15
-    ctx.SetStrokeColor(vgoRGBA(c, c, c, 180))
+    ctx.SetStrokeColor(vgoRGBA(inRed, inGreen, inBlue, 255))
     ctx.SetStrokeWidth(3.0)
     ctx.Stroke()
 

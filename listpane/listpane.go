@@ -38,8 +38,8 @@ func (s *State) SettleBoundary() {
 	bl.SettleBoundary()
 
 	//border.Fill(0,100,0)
-	//border.WireOrFill(0,100,0, false)
-	border.Wire()
+	//border.Wire(255, 255, 0)OrFill(0,100,0, false)
+	border.Wire(255, 255, 0)()
 }
 
 func SettleBoundary() {
