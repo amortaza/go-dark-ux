@@ -32,7 +32,7 @@ func tick() {
 			})
 			button.End()
 			//
-			//button.Id("2").Label("Bye!").Left(x).Top(90).Width(160).Height(60)
+			//button.Id("2").Label("Bye!").left(x).top(90).width(160).height(60)
 			//button.OnClick(func() {
 			//	fmt.Println("clicked")
 			//})

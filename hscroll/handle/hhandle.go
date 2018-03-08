@@ -35,7 +35,7 @@ func div() {
 		bl.Dim(state.Width_, state.Thickness_)
 
 		bl.CustomRenderer(func(node *bl.Node) {
-			ux_enabled.Draw(0, 0, node.Width, node.Height, "")
+			ux_enabled.Draw(0, 0, node.width, node.height, "")
 		}, false)
 	}
 }
@@ -54,24 +54,24 @@ func End() {
 		e := v.(drag.Event)
 		handle := e.Target
 
-		totalWidth := handle.Parent.Width
+		totalWidth := handle.Parent.width
 
-		handleLeft := int(math.Max(1, float64(handle.Left)))
+		handleLeft := int(math.Max(1, float64(handle.left)))
 
-		maxLeft := totalWidth - handle.Width - 1
+		maxLeft := totalWidth - handle.width - 1
 		handleLeft = int(math.Min(float64(maxLeft), float64(handleLeft)))
 
 		bl.EnsureShadowByNode(handle).Left__Self_and_Node(handleLeft, "hhandle")
 		bl.EnsureShadowByNode(handle).Top__Self_and_Node(2, "hhandle")
 
-		//pctStart := float32(handle.Left) / float32(totalWidth)
-		//pctEnd := float32(handle.Left + handle.Width) / float32(totalWidth)
+		//pctStart := float32(handle.left) / float32(totalWidth)
+		//pctEnd := float32(handle.left + handle.width) / float32(totalWidth)
 
 		//if cb != nil {
 		//	cb(newEvent(pctStart, pctEnd))
 		//}
 
-		var pct float32 = float32(handleLeft) / (float32(handle.Parent.Width) - float32(handle.Width))
+		var pct float32 = float32(handleLeft) / (float32(handle.Parent.width) - float32(handle.width))
 		state.onScrollCallback(pct)
 	})
 

@@ -35,7 +35,7 @@ func div() {
 		bl.Dim(state.Thickness_, state.Height_)
 
 		bl.CustomRenderer(func(node *bl.Node) {
-			ux_enabled.Draw(0, 0, node.Width, node.Height, "")
+			ux_enabled.Draw(0, 0, node.width, node.height, "")
 		}, false)
 	}
 }
@@ -54,11 +54,11 @@ func End() {
 		e := v.(drag.Event)
 		handle := e.Target
 
-		totalHeight := handle.Parent.Height
+		totalHeight := handle.Parent.height
 
-		handleTop := int(math.Max(1, float64(handle.Top)))
+		handleTop := int(math.Max(1, float64(handle.top)))
 
-		maxTop := totalHeight - handle.Height - 1
+		maxTop := totalHeight - handle.height - 1
 		handleTop = int(math.Min(float64(maxTop), float64(handleTop)))
 
 		shadow := bl.EnsureShadowByNode(handle)
@@ -66,7 +66,7 @@ func End() {
 		shadow.Left__Self_and_Node(2, "*")
 		shadow.Top__Self_and_Node(handleTop, "*")
 
-		var pct float32 = float32(handleTop) / (float32(handle.Parent.Height) - float32(handle.Height))
+		var pct float32 = float32(handleTop) / (float32(handle.Parent.height) - float32(handle.height))
 
 		if state.onScrollCallback != nil {
 			state.onScrollCallback(pct)

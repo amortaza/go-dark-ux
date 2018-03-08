@@ -37,7 +37,7 @@ func tick() {
 			listpane.Item("Five")
 			listpane.End()
 
-			//label.Id("label").Label(strconv.Itoa(i)+"%").Left(250).Top(100).Width(350).Height(200).FontSize(200)
+			//label.Id("label").Label(strconv.Itoa(i)+"%").left(250).top(100).width(350).height(200).FontSize(200)
 			//border.Draw()
 			//label.End()
 		}

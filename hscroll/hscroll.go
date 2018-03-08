@@ -65,7 +65,7 @@ func End() {
 
 	{
 		bl.CustomRenderer(func(node *bl.Node) {
-			ux_enabled.Draw(0, 0, node.Width, node.Height, "")
+			ux_enabled.Draw(0, 0, node.width, node.height, "")
 		}, false)
 
 		hhandle.Id("handle").Width(80).Thickness(20 - 2*2).Left(1).Top(2)

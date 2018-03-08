@@ -45,7 +45,7 @@ func div() {
 
 			ux_enabled.SetInt("v_cursorOpacity", opacity)
 			ux_enabled.SetInt("v_cursorPos", state.CursorPos)
-			ux_enabled.Draw(0, 0, node.Width, node.Height, state.Text_)
+			ux_enabled.Draw(0, 0, node.width, node.height, state.Text_)
 		}, true)
 	}
 }

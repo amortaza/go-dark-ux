@@ -33,16 +33,16 @@ func div() {
 
 			if state.IsChecked {
 				if state.IsEnabled {
-					ux_checked.Draw(0, 0, node.Width, node.Height, state.Label_)
+					ux_checked.Draw(0, 0, node.width, node.height, state.Label_)
 				} else {
-					//go_dark_ux.DrawCheckbox_Checked_Disabled(0, 0, node.Width, node.Height, state.Label_)
+					//go_dark_ux.DrawCheckbox_Checked_Disabled(0, 0, node.width, node.height, state.Label_)
 				}
 
 			} else {
 				if state.IsEnabled {
-					ux_unchecked.Draw(0, 0, node.Width, node.Height, state.Label_)
+					ux_unchecked.Draw(0, 0, node.width, node.height, state.Label_)
 				} else {
-					//go_dark_ux.DrawCheckbox_Unchecked_Disabled(0, 0, node.Width, node.Height, state.Label_)
+					//go_dark_ux.DrawCheckbox_Unchecked_Disabled(0, 0, node.width, node.height, state.Label_)
 				}
 			}
 

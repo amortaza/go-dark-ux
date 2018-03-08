@@ -32,11 +32,11 @@ func div() {
 		bl.Id(paneId)
 
 		parent := bl.Current_Node.Parent
-		bl.Pos( parent.Left+1, parent.Top+1)
-		bl.Dim( parent.Width-2, parent.Height-2)
+		bl.Pos( parent.left+1, parent.top+1)
+		bl.Dim( parent.width-2, parent.height-2)
 
 		bl.CustomRenderer(func(node *bl.Node) {
-			ux_default.Draw(0, 0, node.Width, node.Height, state.Label_)
+			ux_default.Draw(0, 0, node.width, node.height, state.Label_)
 		}, false)
 	}
 }

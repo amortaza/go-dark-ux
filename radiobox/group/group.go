@@ -37,7 +37,7 @@ func div() {
 		bl.Id(groupId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
-			ux_group.Draw(0, 0, node.Width, node.Height, state.Label_)
+			ux_group.Draw(0, 0, node.width, node.height, state.Label_)
 		}, true)
 
 		height := 60
@@ -45,7 +45,7 @@ func div() {
 		for e := state.ChoiceLabels.Front(); e != nil; e = e.Next() {
 		        label := e.Value.(string)
 
-			choice.Id(label).Label(label).Left(10)/*.Top(top)*/.Width(240).Height(height)
+			choice.Id(label).Label(label).Left(10)/*.top(top)*/.Width(240).Height(height)
 
 			choiceId := choice.CurState.ChoiceId
 
