@@ -49,7 +49,7 @@ func div() {
 
 			ux_default.SetFloat("FontSize", float32(state.S_FontSize))
 
-			ux_default.Draw(0, 0, node.width, node.height, state.S_Label)
+			ux_default.Draw(0, 0, node.Width(), node.Height(), state.S_Label)
 		}, false)
 	}
 }

@@ -38,18 +38,18 @@ func div() {
 			if state.IsChecked {
 
 				if state.IsEnabled {
-					ux_checked.Draw(0, 0, node.width, node.height, state.Label_)
+					ux_checked.Draw(0, 0, node.Width(), node.Height(), state.Label_)
 
 				} else {
-					ux_checked_disabled.Draw(0, 0, node.width, node.height, state.Label_)
+					ux_checked_disabled.Draw(0, 0, node.Width(), node.Height(), state.Label_)
 				}
 
 			} else {
 				if state.IsEnabled {
-					ux_unchecked.Draw(0, 0, node.width, node.height, state.Label_)
+					ux_unchecked.Draw(0, 0, node.Width(), node.Height(), state.Label_)
 
 				} else {
-					ux_unchecked_disabled.Draw(0, 0, node.width, node.height, state.Label_)
+					ux_unchecked_disabled.Draw(0, 0, node.Width(), node.Height(), state.Label_)
 				}
 			}
 

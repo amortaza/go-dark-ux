@@ -58,13 +58,13 @@ func div() {
 		bl.CustomRenderer(func(node *bl.Node) {
 
 			if !state.IsEnabled {
-				ux_disabled.Draw(0, 0, node.width, node.height, state.Label_)
+				ux_disabled.Draw(0, 0, node.Width(), node.Height(), state.Label_)
 
 			} else if state.IsDown {
-				ux_pressed.Draw(0,  0, node.width, node.height, state.Label_)
+				ux_pressed.Draw(0,  0, node.Width(), node.Height(), state.Label_)
 
 			} else {
-				ux_default.Draw(0,  0, node.width, node.height, state.Label_)
+				ux_default.Draw(0,  0, node.Width(), node.Height(), state.Label_)
 			}
 
 		}, false)
