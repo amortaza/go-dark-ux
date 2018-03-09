@@ -22,11 +22,21 @@ func tick() {
 
 		bl.Div()
 		{
-			bl.Id("one")
+			bl.Id("red")
 			bl.Pos(100,100)
 			bl.Dim(800,600)
 
-			border.Wire(255, 255, 0)
+			bl.Div()
+			{
+				bl.Id("green")
+				bl.Pos(100,100)
+				bl.Dim(400,300)
+
+				border.Wire(0, 255, 0)
+			}
+			bl.End()
+
+			border.Fill(255, 0, 0)
 		}
 		bl.End()
 	}
