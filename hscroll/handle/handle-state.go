@@ -1,22 +1,39 @@
 package hhandle
 
+import "github.com/amortaza/go-bellina"
+
+func init() {
+
+	g_stateById = make(map[string] *State)
+}
+
 type State struct {
-	HHandleId           string
+
+	HandleId string
 
 	Left_, Top_, Width_, Thickness_ int
 
 	onScrollCallback func(float32)
+
+	shadow *bl.Node
 }
+
+// Shared variable across Div()/End()
+var g_curState *State
 
 var g_stateById  map[string] *State
 
-func EnsureState(EditId string) *State {
-	state, ok := g_stateById[EditId]
+func EnsureState(handleId string) *State {
+
+	state, ok := g_stateById[handleId]
 
 	if !ok {
-		state = &State{HHandleId: EditId, Width_: 95, Thickness_: 50}
+		state = &State{
+			HandleId: handleId,
+			Width_: 95,
+			Thickness_: 50}
 
-		g_stateById[EditId] = state
+		g_stateById[handleId] = state
 	}
 
 	return state

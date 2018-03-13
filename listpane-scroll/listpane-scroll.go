@@ -6,7 +6,7 @@ import (
 	"github.com/amortaza/go-dark-ux/listpane"
 	"github.com/amortaza/go-bellina-plugins/layout/docker"
 	"github.com/amortaza/go-dark-ux/vscroll"
-	"github.com/amortaza/go-bellina-plugins/layout/side-glue"
+	"github.com/amortaza/go-bellina-plugins/layout/stretch-glue"
 )
 
 func init() {

@@ -9,14 +9,17 @@ import (
 	"github.com/amortaza/go-dark-ux/hscroll"
 	"github.com/amortaza/go-dark-ux/label"
 	"strconv"
-	"github.com/amortaza/go-dark-ux/border"
 )
 
 func initialize() {
 	go_dark_ux.Init()
 }
 
-var i int
+type Data struct {
+	str string
+}
+
+var data Data
 
 func tick() {
 
@@ -31,14 +34,19 @@ func tick() {
 			bl.Pos(10,10)
 			bl.Dim(780,680)
 
-			hscroll.Id("wow2").Left(10).Top(300).Width(750)
+			hscroll.Id("wow2").Left(10).Top(300).Width(750).SettleBoundary()
 			hscroll.On(func(v float32) {
-				i = int(v * 101)
+				i := int(v * 101)
+				str := strconv.Itoa(i)+"%"
+				data.str = str
 			})
 			hscroll.End()
 
-			label.Id("label").Label(strconv.Itoa(i)+"%").Left(250).Top(100).Width(350).Height(200).FontSize(200)
-			border.Wire(255, 255, 0)
+
+			//str := strconv.Itoa(i)+"%"
+			//fmt.Println(data.str)
+
+			label.Id("label").Label(data.str).Left(250).Top(100).Width(350).Height(200).FontSize(200)
 			label.End()
 		}
 		bl.End()

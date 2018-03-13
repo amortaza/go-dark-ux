@@ -2,6 +2,7 @@ package label
 
 import (
 	"github.com/amortaza/go-bellina"
+	"fmt"
 )
 
 var White = []int{255, 255, 255, 170}
@@ -55,6 +56,12 @@ func div() {
 }
 
 func (s *State) Label(label string) (*State){
+
+	if s.S_Label != label {
+		fmt.Println(s.S_Label, " vs ", label)
+		bl.Dirty()
+	}
+
 	s.S_Label = label
 
 	return s

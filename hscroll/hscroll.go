@@ -3,15 +3,7 @@ package hscroll
 import (
 	"github.com/amortaza/go-bellina"
 	"github.com/amortaza/go-dark-ux/hscroll/handle"
-	"fmt"
 )
-
-func init() {
-	g_stateById = make(map[string] *State)
-}
-
-// Shared variable across Div()/End()
-var g_curState *State
 
 func Id(hscrollId string) *State {
 
@@ -26,6 +18,7 @@ func Id(hscrollId string) *State {
 }
 
 func GetValue(hscrollId string) float32 {
+
 	state := ensureState(hscrollId)
 
 	handleId := hscrollId + "/handle"
@@ -35,37 +28,28 @@ func GetValue(hscrollId string) float32 {
 
 	value := float32(handleState.Left_) / float32(width)
 
-	fmt.Println("value ", value)
+	//fmt.Println("value ", value)
 
 	return value
-}
-
-func (s *State) SettleBoundary() {
-
-	state := g_curState
-
-	{
-		bl.Pos(state.Z_Left, state.Z_Top)
-		bl.Dim(state.Z_Width, 20)
-		bl.SettleBoundary()
-	}
 }
 
 func SettleBoundary() {
 	g_curState.SettleBoundary()
 }
+
 func On(cb func(float32)) {
 	g_curState.onScrollCallback = cb
 }
 
 func End() {
+
 	bl.RequireSettledBoundary()
 
 	state := g_curState
 
 	{
 		bl.CustomRenderer(func(node *bl.Node) {
-			ux_enabled.Draw(0, 0, node.width, node.height, "")
+			ux_enabled.Draw(0, 0, node.Width(), node.Height(), "")
 		}, false)
 
 		hhandle.Id("handle").Width(80).Thickness(20 - 2*2).Left(1).Top(2)
