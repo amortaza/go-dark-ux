@@ -14,7 +14,7 @@ var g_curState *State
 func Id(postPaneId string) *State {
 
 	paneId := bl.Current_Node.Id + "/" + postPaneId
-	
+
 	g_curState = ensureState(paneId)
 
 	div()
@@ -32,9 +32,10 @@ func div() {
 	{
 		bl.Id(paneId)
 
-		parent := bl.Current_Node.Parent
-		bl.Pos( parent.Left() + 1, parent.Top() + 1)
-		bl.Dim( parent.Width() - 12, parent.Height() - 12)
+		//parent := bl.Current_Node.Parent
+		//bl.Pos( parent.Left() + 1, parent.Top() + 1)
+		//bl.Dim( parent.Width() - 12, parent.Height() - 12)
+		bl.Width(50)
 
 		bl.CustomRenderer(func(node *bl.Node) {
 			ux_default.Draw(0, 0, node.Width(), node.Height(), state.Label_)

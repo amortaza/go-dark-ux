@@ -1,6 +1,7 @@
 package editbox
 
 type State struct {
+
 	EditId              string
 
 	Text_              string
@@ -9,11 +10,14 @@ type State struct {
 	CursorPos 		int
 
 	Left_, Top_, Width_ int
+
+	Dirty bool
 }
 
 var g_stateById  map[string] *State
 
 func ensureState(EditId string) *State {
+
 	state, ok := g_stateById[EditId]
 
 	if !ok {
@@ -26,6 +30,7 @@ func ensureState(EditId string) *State {
 }
 
 func (s *State) Text(text string) (*State){
+
 	s.Text_ = text
 
 	return s
