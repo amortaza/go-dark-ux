@@ -9,10 +9,10 @@ var White = []int{255, 255, 255, 170}
 var Orange = []int{234,134,60, 250}
 
 func init() {
+
 	g_stateByNode = make(map[string] *State)
 }
 
-// Shared variable across Div()/End()
 var g_curState *State
 
 func Id(labelId string) *State {

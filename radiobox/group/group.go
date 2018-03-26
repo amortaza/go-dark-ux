@@ -65,7 +65,7 @@ func div() {
 			choice.End()
 		}
 
-		vert.Id().Top(50).Spacing(0).End()
+		vert.Use().Top(50).Spacing(0).End()
 	}
 }
 

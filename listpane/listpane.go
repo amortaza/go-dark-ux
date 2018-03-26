@@ -114,7 +114,7 @@ func SettleKids() {
 			label.End()
 		}
 
-		vert.Id().Spacing(0).Top(0).End()
+		vert.Use().Spacing(0).Top(0).End()
 
 	}
 	bl.End()
