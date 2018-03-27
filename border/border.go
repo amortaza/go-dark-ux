@@ -16,12 +16,26 @@ func Wire(r, g, b int) {
 
 	bl.CustomRenderer(func(node *bl.Node) {
 
+		shadow := bl.EnsureShadowByNode(node)
+
+		ux_default.SetInt("inFill", 0)
+		ux_default.SetInt("inRed", r)
+		ux_default.SetInt("inGreen", g)
+		ux_default.SetInt("inBlue", b)
+		ux_default.Draw(0, 0, shadow.Width, shadow.Height, "")
+	}, false)
+}
+
+func Wire_TopsKids(r, g, b int) {
+
+	bl.CustomRenderer(func(node *bl.Node) {
+
 		ux_default.SetInt("inFill", 0)
 		ux_default.SetInt("inRed", r)
 		ux_default.SetInt("inGreen", g)
 		ux_default.SetInt("inBlue", b)
 		ux_default.Draw(0, 0, node.Width(), node.Height(), "")
-	}, false)
+	}, true)
 }
 
 func Fill(r, g, b int) {
