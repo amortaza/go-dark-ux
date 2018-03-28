@@ -2,7 +2,7 @@ package label
 
 import (
 	"github.com/amortaza/go-bellina"
-	"fmt"
+	"github.com/amortaza/go-ux"
 )
 
 var White = []int{255, 255, 255, 170}
@@ -10,152 +10,200 @@ var Orange = []int{234,134,60, 250}
 
 func init() {
 
-	g_stateByNode = make(map[string] *State)
+	g_stateByLabelId = make(map[string] *State)
 }
 
-var g_curState *State
+var g_state *State
 
 func Id(labelId string) *State {
 
-	g_curState = ensureState(labelId)
+	g_state = ensureState(labelId)
 
-	g_curState.Color1v(White)
-	g_curState.BackColor1v(White)
+	g_state.Color1v(White)
+	g_state.BackColor1v(White)
 
 	div()
 
-	return g_curState
+	return g_state
 }
 
 func div() {
 
-	labelId := g_curState.S_LabelId
-	state := g_curState
+	labelId := g_state.labelId
+	state := g_state
 
 	bl.Div()
 	{
 		bl.Id(labelId)
 
 		bl.CustomRenderer(func(node *bl.Node) {
-			ux_default.SetInt("inTextRed", state.S_ColorRed)
-			ux_default.SetInt("inTextGreen", state.S_ColorGreen)
-			ux_default.SetInt("inTextBlue", state.S_ColorBlue)
-			ux_default.SetInt("inTextAlpha", state.S_ColorAlpha)
 
-			ux_default.SetInt("inHasBack", state.S_HasBack)
-			ux_default.SetInt("inBackRed", state.S_BackColorRed)
-			ux_default.SetInt("inBackGreen", state.S_BackColorGreen)
-			ux_default.SetInt("inBackBlue", state.S_BackColorBlue)
-			ux_default.SetInt("inBackAlpha", state.S_BackColorAlpha)
+			hasBack := 0
 
-			ux_default.SetFloat("FontSize", float32(state.S_FontSize))
+			if state.hasBack {
+				hasBack = 1
+			}
 
-			ux_default.Draw(0, 0, node.Width(), node.Height(), state.S_Label)
+			ux_default.SetInt("inTextRed", state.colorRed)
+			ux_default.SetInt("inTextGreen", state.colorGreen)
+			ux_default.SetInt("inTextBlue", state.colorBlue)
+			ux_default.SetInt("inTextAlpha", state.colorAlpha)
+			ux_default.SetInt("inHasBack", hasBack)
+			ux_default.SetInt("inBackRed", state.back_colorRed)
+			ux_default.SetInt("inBackGreen", state.back_colorGreen)
+			ux_default.SetInt("inBackBlue", state.back_colorBlue)
+			ux_default.SetInt("inBackAlpha", state.back_colorAlpha)
+
+			ux_default.SetFloat("FontSize", float32(state.fontsize))
+
+			ux_default.Draw(0, 0, node.Width(), node.Height(), state.label)
 		}, false)
 	}
 }
 
-func (s *State) Label(label string) (*State){
+func (state *State) Label(label string) (*State){
 
-	if s.S_Label != label {
-		fmt.Println(s.S_Label, " vs ", label)
-		bl.Dirty()
+	if state.label == label {
+
+		return state
 	}
 
-	s.S_Label = label
+	bl.Dirty()
 
-	return s
+	state.label = label
+
+	calcDims(state)
+
+	return state
 }
 
-func (s *State) HasBack(has bool) (*State){
-	if has {
-		s.S_HasBack = 1
+func (state *State) HasBack(hasBack bool) (*State){
+
+	if hasBack {
+		state.hasBack = true
 	} else {
-		s.S_HasBack = 0
+		state.hasBack = false
 	}
 
-	return s
+	return state
 }
 
-func (s *State) Color4i(r,g,b,a int) (*State){
-	s.S_ColorRed, s.S_ColorGreen, s.S_ColorBlue, s.S_ColorAlpha = r, g, b, a
+func (state *State) Color4i(r,g,b,a int) (*State){
 
-	return s
+	state.colorRed, state.colorGreen, state.colorBlue, state.colorAlpha = r, g, b, a
+
+	return state
 }
 
-func (s *State) Color1v(colors []int) (*State){
-	s.S_ColorRed, s.S_ColorGreen, s.S_ColorBlue, s.S_ColorAlpha = colors[0], colors[1], colors[2], colors[3]
+func (state *State) Color1v(colors []int) (*State){
 
-	return s
+	state.colorRed, state.colorGreen, state.colorBlue, state.colorAlpha = colors[0], colors[1], colors[2], colors[3]
+
+	return state
 }
 
-func (s *State) BackColor1v(colors []int) (*State){
-	s.S_HasBack = 1
-	s.S_ColorRed, s.S_ColorGreen, s.S_ColorBlue, s.S_ColorAlpha = colors[0], colors[1], colors[2], colors[3]
+func (state *State) BackColor1v(colors []int) (*State){
 
-	return s
+	state.hasBack = true
+
+	state.colorRed, state.colorGreen, state.colorBlue, state.colorAlpha = colors[0], colors[1], colors[2], colors[3]
+
+	return state
 }
 
-func (s *State) BackColor4i(r,g,b,a int) (*State){
-	s.S_HasBack = 1
-	s.S_BackColorRed, s.S_BackColorGreen, s.S_BackColorBlue, s.S_BackColorAlpha = r, g, b, a
+func (state *State) BackColor4i(r,g,b,a int) (*State){
 
-	return s
+	state.hasBack = true
+
+	state.back_colorRed, state.back_colorGreen, state.back_colorBlue, state.back_colorAlpha = r, g, b, a
+
+	return state
 }
 
 func BackColor4i(r,g,b,a int) (*State){
-	return g_curState.BackColor4i(r,g,b,a)
+
+	return g_state.BackColor4i(r,g,b,a)
 }
 
 func BackColor1v(colors []int) (*State){
-	return g_curState.BackColor1v(colors)
+
+	return g_state.BackColor1v(colors)
 }
 
-func (s *State) FontSize(size int) (*State){
-	s.S_FontSize = size
+func (state *State) FontSize(size int) (*State){
 
-	return s
+	if state.fontsize == size {
+
+		return state
+	}
+
+	bl.Dirty()
+
+	state.fontsize = size
+
+	calcDims(state)
+
+	return state
 }
 
-func (s *State) Left(left int) (*State){
-	s.S_Left = left
+func (state *State) Left(left int) (*State){
 
-	bl.Pos(s.S_Left, s.S_Top)
+	state.left = left
 
-	return s
+	return state
 }
 
-func (s *State) Top(top int) (*State){
-	s.S_Top = top
+func (state *State) Top(top int) (*State){
 
-	bl.Pos(s.S_Left, s.S_Top)
+	state.top = top
 
-	return s
+	return state
 }
 
-func (s *State) Width(w int) (*State){
-	s.S_Width = w
+func (state *State) Width(w int) (*State){
 
-	bl.Dim(s.S_Width, s.S_Height)
+	state.width = w
 
-	return s
+	return state
 }
 
-func (s *State) Height(h int) (*State){
-	s.S_Height = h
+func (state *State) Height(h int) (*State){
 
-	bl.Dim(s.S_Width, s.S_Height)
+	state.height = h
 
-	return s
+	return state
 }
 
-func (s *State) End() (*State){
-	End()
+func (state *State) End() (*State){
 
-	return s
-}
+	bl.Pos(state.left, state.top)
 
-func End() {
+	if state.width == -1 {
+		bl.Width(state.text_width)
+	} else {
+		bl.Width(state.width)
+	}
+
+	if state.height == -1 {
+		bl.Height(state.text_height)
+	} else {
+		bl.Height(state.height)
+	}
+
 	bl.End()
+
+	return state
 }
 
+func calcDims(state *State) {
+
+	if state.width > -1 && state.height > -1 {
+		return
+	}
+
+	ux.Ctx.SetFontSize(float32(state.fontsize))
+	ux.Ctx.SetFontFace("sans")
+
+	state.text_width = int(ux.GetTextWidth(state.label + "W"))
+	state.text_height = int(ux.GetTextHeight(state.label))
+}

@@ -21,7 +21,12 @@ func tick() {
 		bl.Pos(0,0)
 		bl.Dim(640, 480)
 
-		label.Id("first").Left(10).Top(10).Width(200).Height(90).Label("Hello World!").End()
+		label.Id("first").
+			HasBack(true).
+				BackColor4i(255, 0, 0, 255).
+					Left(10).Top(10).
+						Label("Hello World!").
+							End()
 
 		button.Id("two").Left(10).Top(120).Width(200).Height(90).Label("Push")
 		button.OnClick(func() {
