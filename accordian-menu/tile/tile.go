@@ -2,12 +2,11 @@ package accordian_menu_tile
 
 import (
 	"github.com/amortaza/go-bellina"
-	"github.com/amortaza/go-dark-ux/border"
 	"github.com/amortaza/go-bellina-plugins/layout/docker"
-	"github.com/amortaza/go-bellina-plugins/animation"
-	"github.com/amortaza/go-dark-ux/checkbox"
 	"github.com/amortaza/go-bellina-plugins/layout/vert"
 	"github.com/amortaza/go-bellina-plugins/layout/pack"
+	"github.com/amortaza/go-dark-ux/checkbox"
+	"github.com/amortaza/go-bellina-plugins/animation"
 )
 
 var g_state *State
@@ -27,8 +26,9 @@ func div() {
 	{
 		bl.Id(g_state.tileId + "/red")
 
-		bl.Pos(50,50)
 		bl.Dim(640, 580)
+
+		//border.Wire(255, 255, 255)
 
 		bl.Div()
 		{
@@ -37,8 +37,6 @@ func div() {
 			bl.Pos(10, 100)
 
 			//border.Wire(50, 200, 200)
-
-			// items()
 		}
 	}
 }
@@ -48,42 +46,40 @@ func header() {
 	bl.Div()
 	{
 		bl.Id(g_state.tileId + "/header")
-		bl.Height(100)
+		bl.Height(150)
 
-		checkbox.Id(g_state.tileId + "/1").Label(g_state.title).Left(10).Top(10).Width(250).Height(90).Checked(g_state.isOpen)
+		checkbox.Id(g_state.tileId + "/1").Label(g_state.title).Height(30).Checked(g_state.isOpen).PlusBox()
+		{
+			state := g_state
 
-		state := g_state
+			checkbox.OnClick(func() {
 
-		checkbox.OnClick(func() {
+				// closedHeight is -5 actually
+				closedHeight, openedHeight := state.headerHeight, state.headerHeight+state.bodyHeight+5
+				start, end := closedHeight, openedHeight
 
-			// closedHeight is -5 actually
-			closedHeight, openedHeight := state.headerHeight, state.headerHeight + state.bodyHeight + 5
-			start, end := closedHeight, openedHeight
+				if state.isOpen {
+					start, end = openedHeight, closedHeight
+				}
 
-			if state.isOpen {
-				start, end = openedHeight, closedHeight
-			}
+				animation.StartPath(state.tileId+"/red", state.tileId+"/hi", float32(start), float32(end), 50, func(shadow *bl.ShadowNode, value float32) {
+					shadow.Height = int(value)
+				})
 
-			animation.StartPath(state.tileId + "/red", state.tileId + "/hi", float32(start), float32(end), 50, func(shadow *bl.ShadowNode, value float32) {
-				shadow.Height = int(value)
+				state.isOpen = !state.isOpen
 			})
 
-			state.isOpen = !state.isOpen
-		})
+			//border.Wire(0, 100, 200)
 
+			docker.Use().AnchorLeft(0).AnchorTop(0).AnchorRight(0).End()
+		}
 		checkbox.End()
 
-		/*label.Id(g_state.tileId + "/first").Left(3).Top(3).Width(200).Height(90).Label(g_state.title)
-		{
-			label.BackColor4i(50, 100, 0, 255)
-		}
-		label.End()*/
-
-		//border.Wire(50,100,200)
+		//border.Wire(0,100,200)
 		//border.Fill(40,40,40)
 
 		docker.Use().AnchorLeft(3).AnchorTop(0).AnchorRight(3).End()
-		//horiz.Use().Left(3).Spacing(10).End()
+		pack.Use()
 
 		g_state.headerHeight = bl.EnsureShadow().Height
 	}
@@ -115,7 +111,7 @@ func End() {
 
 	// div...
 	{
-		border.Wire_TopsKids(100, 100, 100)
+		//border.Wire_TopsKids(100, 100, 100)
 	}
 	bl.End()
 }

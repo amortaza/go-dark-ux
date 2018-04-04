@@ -2,83 +2,91 @@ package checkbox
 
 type State struct {
 
-	CheckboxId                   string
-	IsChecked                    bool
-	IsEnabled                    bool
+	checkboxId string
+	isChecked  bool
+	isEnabled  bool
 
-	Label_                       string
+	label string
 
-	Left_, Top_, Width_, Height_ int
+	left, top, width, height int
 
-	OnClick                      func()
+	onClick func()
 
 	// this is true only for the first time the state is created
 	// after that the state value is modified by application flow
-	ValuesComeFromSourceCode	bool
+	values_come_from_source_code bool
 
-	Dirty bool
+	isDirty bool
+	isPlusBox bool
 }
 
-var gStateByNode  map[string] *State
+var g_stateByNodeId map[string] *State
 
 func ensureState(CheckboxId string) *State {
 
-	state, ok := gStateByNode[CheckboxId]
+	state, ok := g_stateByNodeId[CheckboxId]
 
 	if !ok {
 
-		state = &State{CheckboxId: CheckboxId, Label_: "OK", Width_: 95, Height_: 30, IsEnabled: true, ValuesComeFromSourceCode: true}
+		state = &State{checkboxId: CheckboxId, label: "OK", width: 95, height: 30, isEnabled: true, values_come_from_source_code: true}
 
-		gStateByNode[CheckboxId] = state
+		g_stateByNodeId[CheckboxId] = state
 	}
 
 	return state
 }
 
 func (s *State) Label(label string) (*State){
-	s.Label_ = label
+	s.label = label
 
 	return s
 }
 
 func (s *State) Left(left int) (*State){
-	s.Left_ = left
+	s.left = left
 
 	return s
 }
 
 func (s *State) Top(top int) (*State){
-	s.Top_ = top
+	s.top = top
 
 	return s
 }
 
 func (s *State) Width(w int) (*State){
-	s.Width_ = w
+	s.width = w
 
 	return s
 }
 
 func (s *State) Height(h int) (*State){
-	s.Height_ = h
+	s.height = h
 
 	return s
 }
 
 func (s *State) Enabled(enabled bool) (*State){
 
-	s.IsEnabled = enabled
+	s.isEnabled = enabled
+
+	return s
+}
+
+func (s *State) PlusBox() (*State){
+
+	s.isPlusBox = true
 
 	return s
 }
 
 func (s *State) Checked(checked bool) (*State){
 
-	if !s.ValuesComeFromSourceCode {
+	if !s.values_come_from_source_code {
 		return s
 	}
 
-	s.IsChecked = checked
+	s.isChecked = checked
 
 	return s
 }

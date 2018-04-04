@@ -26,6 +26,8 @@ func Id(postfixEditId string) *State {
 
 	g_curState = ensureState(editId)
 
+	div()
+
 	return g_curState
 }
 
@@ -55,8 +57,6 @@ func div() {
 }
 
 func End() {
-
-	div()
 
 	state := g_curState
 

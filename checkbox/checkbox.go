@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	gStateByNode = make(map[string] *State)
+	g_stateByNodeId = make(map[string] *State)
 }
 
 // Shared variable across Div()/End()
@@ -25,7 +25,7 @@ func Id(postfixCheckboxId string) *State {
 
 func div() {
 
-	checkboxId := gCurState.CheckboxId
+	checkboxId := gCurState.checkboxId
 
 	state := gCurState
 
@@ -35,21 +35,38 @@ func div() {
 
 		bl.CustomRenderer(func(node *bl.Node) {
 
-			if state.IsChecked {
+			if state.isChecked {
 
-				if state.IsEnabled {
-					ux_checked.Draw(0, 0, node.Width(), node.Height(), state.Label_)
+				if state.isEnabled {
+					if state.isPlusBox {
+						ux_plusbox__checked.Draw(0, 0, node.Width(), node.Height(), state.label)
+					} else {
+						ux_checkbox__checked.Draw(0, 0, node.Width(), node.Height(), state.label)
+					}
 
 				} else {
-					ux_checked_disabled.Draw(0, 0, node.Width(), node.Height(), state.Label_)
+
+					if state.isPlusBox {
+						ux_plusbox__checked_disabled.Draw(0, 0, node.Width(), node.Height(), state.label)
+					} else {
+						ux_checkbox__checked_disabled.Draw(0, 0, node.Width(), node.Height(), state.label)
+					}
 				}
 
 			} else {
-				if state.IsEnabled {
-					ux_unchecked.Draw(0, 0, node.Width(), node.Height(), state.Label_)
+				if state.isEnabled {
+					if state.isPlusBox {
+						ux_plusbox__unchecked.Draw(0, 0, node.Width(), node.Height(), state.label)
+					} else {
+						ux_checkbox__unchecked.Draw(0, 0, node.Width(), node.Height(), state.label)
+					}
 
 				} else {
-					ux_unchecked_disabled.Draw(0, 0, node.Width(), node.Height(), state.Label_)
+					if state.isPlusBox {
+						ux_plusbox__unchecked_disabled.Draw(0, 0, node.Width(), node.Height(), state.label)
+					} else {
+						ux_checkbox__unchecked_disabled.Draw(0, 0, node.Width(), node.Height(), state.label)
+					}
 				}
 			}
 
@@ -59,7 +76,7 @@ func div() {
 
 func OnClick(cb func()) {
 
-	gCurState.OnClick = cb
+	gCurState.onClick = cb
 }
 
 func End() {
@@ -71,13 +88,13 @@ func End() {
 		// click
 		func(i interface{}) {
 
-			if state.IsEnabled {
+			if state.isEnabled {
 
-				state.IsChecked = !state.IsChecked
-				state.Dirty = true
+				state.isChecked = !state.isChecked
+				state.isDirty = true
 
-				if state.OnClick != nil {
-					state.OnClick()
+				if state.onClick != nil {
+					state.onClick()
 				}
 			}
 		},
@@ -90,16 +107,16 @@ func End() {
 		func(i interface{}) {
 		} )
 
-	bl.Pos(state.Left_, state.Top_)
-	bl.Dim(state.Width_, state.Height_)
+	bl.Pos(state.left, state.top)
+	bl.Dim(state.width, state.height)
 
-	if state.Dirty {
+	if state.isDirty {
 		bl.Dirty()
-		state.Dirty = false
+		state.isDirty = false
 	}
 
 	bl.End()
 
-	state.ValuesComeFromSourceCode = false
+	state.values_come_from_source_code = false
 }
 

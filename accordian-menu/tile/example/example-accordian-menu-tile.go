@@ -7,10 +7,8 @@ import (
 	"github.com/amortaza/go-hal-g5"
 	"github.com/amortaza/go-dark-ux"
 	"github.com/amortaza/go-dark-ux/accordian-menu/tile"
-	"github.com/amortaza/go-dark-ux/border"
 	"github.com/amortaza/go-bellina-plugins/click"
 	"github.com/amortaza/go-bellina-plugins/animation"
-	//"github.com/amortaza/go-bellina-plugins/layout/vert"
 	"github.com/amortaza/go-bellina-plugins/layout/vert"
 	"github.com/amortaza/go-dark-ux/label"
 	"github.com/amortaza/go-bellina-plugins/layout/pack"
@@ -63,7 +61,7 @@ func items() {
 
 		pack.Use().End()
 
-		border.Wire(150,120,20)
+		//border.Wire(150,120,20)
 	}
 	bl.End()
 
@@ -73,7 +71,7 @@ func items() {
 		bl.Pos(10,100)
 
 		label.Id("dict").Label("Dictionary").Width(200).Height(50).End()
-		border.Wire(50,200,20)
+		//border.Wire(50,200,20)
 
 		pack.Use().End()
 
@@ -93,7 +91,7 @@ func items() {
 		label.Id("Business Rules").Label("Business Rules").Width(400).Height(50).End()
 
 		pack.Use().End()
-		border.Wire(10,20,200)
+		//border.Wire(10,20,200)
 	}
 	bl.End()
 
@@ -110,7 +108,7 @@ func items2() {
 		label.Id("aBusiness Rules").Label("Scheduled Jobs").Width(400).Height(50).End()
 		pack.Use().End()
 
-		border.Wire_TopsKids(150,120,20)
+		//border.Wire_TopsKids(150,120,20)
 	}
 	bl.End()
 
@@ -122,7 +120,7 @@ func items2() {
 
 		label.Id("bBusiness Rules").Label("Script Includes").Width(400).Height(50).End()
 		pack.Use().End()
-		border.Wire(50,200,20)
+		//border.Wire(50,200,20)
 
 		click.On(func(i interface{}) {
 			animation.StartPath("j-2", "hi3", float32(100), float32(300), 50, func(shadow *bl.ShadowNode, value float32) {
@@ -140,7 +138,7 @@ func items2() {
 
 		label.Id("cBusiness Rules").Label("Access Controls").Width(400).Height(50).End()
 		pack.Use().End()
-		border.Wire(10,20,200)
+		//border.Wire(10,20,200)
 	}
 	bl.End()
 
