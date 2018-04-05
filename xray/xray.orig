@@ -1,0 +1,184 @@
+package xray
+
+import (
+	"github.com/amortaza/go-bellina"
+	"github.com/amortaza/go-bellina-plugins/hover"
+	"fmt"
+)
+
+func init() {
+	//g_stateByNodeId = make(map[string] *State)
+}
+
+// Shared variable across Div()/End()
+//var gCurState *State
+
+func cool1(node *bl.Node) {
+
+	shadow := bl.EnsureShadowByNode(node)
+
+	ux_xray.SetInt("inFill", 0)
+	ux_xray.SetInt("inRed", 255)
+	ux_xray.SetInt("inGreen", 255)
+	ux_xray.SetInt("inBlue", 0)
+
+	ux_xray.SetInt("inViewWidth", shadow.Width)
+	ux_xray.SetInt("inViewHeight", shadow.Height)
+
+	for i := node.Kids.Front(); i != nil; i = i.Next() {
+
+		kid := i.Value.(*bl.Node)
+
+		kidShadow := bl.EnsureShadowByNode(kid)
+
+		ux_xray.Draw(kidShadow.Left, kidShadow.Top, kidShadow.Width, kidShadow.Height, "Awesome")
+	}
+}
+
+func cool(node *bl.Node) {
+
+	shadow := bl.EnsureShadowByNode(node)
+
+	ux_xray.SetInt("inFill", 0)
+	ux_xray.SetInt("inRed", 255)
+	ux_xray.SetInt("inGreen", 255)
+	ux_xray.SetInt("inBlue", 0)
+
+	ux_xray.SetInt("inViewWidth", shadow.Width)
+	ux_xray.SetInt("inViewHeight", shadow.Height)
+
+	ux_xray.Draw(shadow.Left, shadow.Top, shadow.Width, shadow.Height, "Awesome")
+}
+
+func Use() {
+
+	for i := bl.Current_Node.Kids.Front(); i != nil; i = i.Next() {
+
+		kid := i.Value.(*bl.Node)
+
+		bl.DivId(kid.Id)
+		{
+			hover.On(func(interface{}) {
+
+				fmt.Println("hi", kid.Id)
+				bl.DivId(kid.Id)
+				{
+					bl.CustomRenderer(cool, true)
+				}
+				bl.End()
+			})
+		}
+		bl.End()
+	}
+
+//	bl.CustomRenderer(, true)
+
+}
+
+//
+//	buttonId := bl.Current_Node.Id + "/" + postfixCheckboxId
+//
+//	gCurState = ensureState(buttonId)
+//
+//	div()
+//
+//	return gCurState
+//}
+//
+//func div() {
+//
+//	checkboxId := gCurState.checkboxId
+//
+//	state := gCurState
+//
+//	bl.Div()
+//	{
+//		bl.Id(checkboxId)
+//
+//		bl.CustomRenderer(func(node *bl.Node) {
+//
+//			if state.isChecked {
+//
+//				if state.isEnabled {
+//					if state.isPlusBox {
+//						ux_plusbox__checked.Draw(0, 0, node.Width(), node.Height(), state.label)
+//					} else {
+//						ux_checkbox__checked.Draw(0, 0, node.Width(), node.Height(), state.label)
+//					}
+//
+//				} else {
+//
+//					if state.isPlusBox {
+//						ux_plusbox__checked_disabled.Draw(0, 0, node.Width(), node.Height(), state.label)
+//					} else {
+//						ux_checkbox__checked_disabled.Draw(0, 0, node.Width(), node.Height(), state.label)
+//					}
+//				}
+//
+//			} else {
+//				if state.isEnabled {
+//					if state.isPlusBox {
+//						ux_plusbox__unchecked.Draw(0, 0, node.Width(), node.Height(), state.label)
+//					} else {
+//						ux_checkbox__unchecked.Draw(0, 0, node.Width(), node.Height(), state.label)
+//					}
+//
+//				} else {
+//					if state.isPlusBox {
+//						ux_plusbox__unchecked_disabled.Draw(0, 0, node.Width(), node.Height(), state.label)
+//					} else {
+//						ux_checkbox__unchecked_disabled.Draw(0, 0, node.Width(), node.Height(), state.label)
+//					}
+//				}
+//			}
+//
+//		}, false)
+//	}
+//}
+//
+//func OnClick(cb func()) {
+//
+//	gCurState.onClick = cb
+//}
+//
+//func End() {
+//
+//	state := gCurState
+//
+//	click.On_WithLifeCycle(
+//
+//		 click
+		//func(i interface{}) {
+		//
+		//	if state.isEnabled {
+		//
+		//		state.isChecked = !state.isChecked
+		//		state.isDirty = true
+		//
+		//		if state.onClick != nil {
+		//			state.onClick()
+		//		}
+		//	}
+		//},
+		//
+		// on down
+		//func(i interface{}) {
+		//},
+		//
+		// on miss
+		//func(i interface{}) {
+		//} )
+	//
+	//bl.Pos(state.left, state.top)
+	//bl.Dim(state.width, state.height)
+	//
+	//if state.isDirty {
+	//	bl.Dirty()
+	//	state.isDirty = false
+	//}
+	//
+	//bl.End()
+	//
+	//state.values_come_from_source_code = false
+//}
+
