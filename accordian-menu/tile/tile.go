@@ -36,7 +36,7 @@ func div() {
 			bl.Dim(100, 550)
 			bl.Pos(10, 100)
 
-			//border.Wire(50, 200, 200)
+			//border.Wire(50, 255, 100)
 		}
 	}
 }
@@ -112,6 +112,7 @@ func End() {
 	// div...
 	{
 		//border.Wire_TopsKids(100, 100, 100)
+		docker.Use().AnchorLeft(10).AnchorRight(10).End()
 	}
 	bl.End()
 }
