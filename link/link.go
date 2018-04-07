@@ -1,26 +1,20 @@
-package label
+package link
 
 import (
 	"github.com/amortaza/go-bellina"
 	"github.com/amortaza/go-ux"
 )
 
-var White = []int{255, 255, 255, 170}
-var Orange = []int{234,134,60, 250}
-
 func init() {
 
-	g_stateByLabelId = make(map[string] *State)
+	g_stateByLinkId = make(map[string] *State)
 }
 
 var g_state *State
 
-func Id(labelId string) *State {
+func Id(linkId string) *State {
 
-	g_state = ensureState(labelId)
-
-	g_state.Color1v(White)
-	g_state.BackColor1v(White)
+	g_state = ensureState(linkId)
 
 	div()
 
@@ -29,34 +23,26 @@ func Id(labelId string) *State {
 
 func div() {
 
-	labelId := g_state.labelId
+	labelId := g_state.linkId
 	state := g_state
+
+	//fmt.Println(state.state)
 
 	bl.Div()
 	{
 		bl.Id(labelId)
 
+		if state.dirty {
+			bl.Dirty()
+			state.dirty = false
+		}
+
 		bl.CustomRenderer(func(node *bl.Node) {
 
-			hasBack := 0
-
-			if state.hasBack {
-				hasBack = 1
-			}
-
-			ux_default.SetInt("inTextRed", state.colorRed)
-			ux_default.SetInt("inTextGreen", state.colorGreen)
-			ux_default.SetInt("inTextBlue", state.colorBlue)
-			ux_default.SetInt("inTextAlpha", state.colorAlpha)
-			ux_default.SetInt("inHasBack", hasBack)
-			ux_default.SetInt("inBackRed", state.back_colorRed)
-			ux_default.SetInt("inBackGreen", state.back_colorGreen)
-			ux_default.SetInt("inBackBlue", state.back_colorBlue)
-			ux_default.SetInt("inBackAlpha", state.back_colorAlpha)
-
-			ux_default.SetFloat("FontSize", float32(state.fontsize))
+			ux_default.SetInt("inState", state.state)
 
 			ux_default.Draw(0, 0, node.Width(), node.Height(), state.label)
+
 		}, false)
 	}
 }
@@ -71,75 +57,6 @@ func (state *State) Label(label string) (*State){
 	bl.Dirty()
 
 	state.label = label
-
-	calcDims(state)
-
-	return state
-}
-
-func (state *State) HasBack(hasBack bool) (*State){
-
-	if hasBack {
-		state.hasBack = true
-	} else {
-		state.hasBack = false
-	}
-
-	return state
-}
-
-func (state *State) Color4i(r,g,b,a int) (*State){
-
-	state.colorRed, state.colorGreen, state.colorBlue, state.colorAlpha = r, g, b, a
-
-	return state
-}
-
-func (state *State) Color1v(colors []int) (*State){
-
-	state.colorRed, state.colorGreen, state.colorBlue, state.colorAlpha = colors[0], colors[1], colors[2], colors[3]
-
-	return state
-}
-
-func (state *State) BackColor1v(colors []int) (*State){
-
-	state.hasBack = true
-
-	state.colorRed, state.colorGreen, state.colorBlue, state.colorAlpha = colors[0], colors[1], colors[2], colors[3]
-
-	return state
-}
-
-func (state *State) BackColor4i(r,g,b,a int) (*State){
-
-	state.hasBack = true
-
-	state.back_colorRed, state.back_colorGreen, state.back_colorBlue, state.back_colorAlpha = r, g, b, a
-
-	return state
-}
-
-func BackColor4i(r,g,b,a int) (*State){
-
-	return g_state.BackColor4i(r,g,b,a)
-}
-
-func BackColor1v(colors []int) (*State){
-
-	return g_state.BackColor1v(colors)
-}
-
-func (state *State) FontSize(size int) (*State){
-
-	if state.fontsize == size {
-
-		return state
-	}
-
-	bl.Dirty()
-
-	state.fontsize = size
 
 	calcDims(state)
 
@@ -179,16 +96,18 @@ func (state *State) End() (*State){
 	bl.Pos(state.left, state.top)
 
 	if state.width == -1 {
-		bl.Width(state.text_width)
+		bl.Width(state.text_width + 20)
 	} else {
 		bl.Width(state.width)
 	}
 
 	if state.height == -1 {
-		bl.Height(state.text_height)
+		bl.Height(state.text_height+20)
 	} else {
 		bl.Height(state.height)
 	}
+
+	setup_hover(state)
 
 	bl.End()
 
@@ -201,7 +120,7 @@ func calcDims(state *State) {
 		return
 	}
 
-	ux.Ctx.SetFontSize(float32(state.fontsize))
+	ux.Ctx.SetFontSize(float32(36))
 	ux.Ctx.SetFontFace("sans")
 
 	state.text_width = int(ux.GetTextWidth(state.label + "W"))

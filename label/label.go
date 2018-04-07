@@ -106,7 +106,7 @@ func (state *State) BackColor1v(colors []int) (*State){
 
 	state.hasBack = true
 
-	state.colorRed, state.colorGreen, state.colorBlue, state.colorAlpha = colors[0], colors[1], colors[2], colors[3]
+	state.back_colorRed, state.back_colorGreen, state.back_colorBlue, state.back_colorAlpha = colors[0], colors[1], colors[2], colors[3]
 
 	return state
 }
@@ -123,11 +123,6 @@ func (state *State) BackColor4i(r,g,b,a int) (*State){
 func BackColor4i(r,g,b,a int) (*State){
 
 	return g_state.BackColor4i(r,g,b,a)
-}
-
-func BackColor1v(colors []int) (*State){
-
-	return g_state.BackColor1v(colors)
 }
 
 func (state *State) FontSize(size int) (*State){

@@ -1,40 +1,67 @@
 ctx.BeginFrame(w, h, 1.0)
-x++
-y++
-w -= 2
-h -= 2
 
-if (inHasBack) {
+// 234,134,60, 250
+// 214,134,60, 250
+// 214; 234; 160; // green
+
+console.log(inState)
+
+if (inState == 0) {
+
+    // default
+    hasBack = 0
+
+    backRed = backGreen = backBlue = 255
+    backAlpha = 0
+
+    textRed = 214; textGreen = 134; textBlue = 60;
+    blurrAlpha = textAlpha = 255
+}
+else if (inState == 1) {
+
+    // hover
+    hasBack = 1
+
+    backRed = backGreen = backBlue = 255
+    backAlpha = 50
+
+    textRed = 214; textGreen = 134; textBlue = 60;
+    blurrAlpha = textAlpha = 255
+}
+else if (inState == 2) {
+
+    // pick (click down)
+    hasBack = 1
+
+    backRed = backGreen = backBlue = 255
+    backAlpha = 90
+
+    textRed = 214; textGreen = 234; textBlue = 160;
+    blurrAlpha = textAlpha = 255
+}
+
+if (hasBack) {
 	ctx.BeginPath()
 	ctx.RoundedRect(x, y, w, h, 1.0)
-	ctx.SetFillColor(vgoRGBA(inBackRed,inBackGreen,inBackBlue, inBackAlpha))
+
+	ctx.SetFillColor(vgoRGBA(backRed,backGreen,backBlue, backAlpha))
 	ctx.Fill()
 }
 
-ctx.SetFontSize(FontSize)
+ctx.SetFontSize(36.0)
 ctx.SetFontFace("sans")
 
 ctx.SetTextAlign(vgoAlignLeft | vgoAlignMiddle)
 
-var btnx = 10.0 // w / 120 - sysGetTextWidth(text) / 120
-var btny = h / 2 - 1
+var left = 20.0
+var top = h / 2 - 1
 
 ctx.SetFontBlur(1.0)
-ctx.SetFillColor(vgoRGBA(0, 0, 0, 255))
-ctx.Text(btnx, btny, text)
+ctx.SetFillColor(vgoRGBA(0, 0, 0, blurrAlpha))
+ctx.Text(left, top, text)
 
 ctx.SetFontBlur(0.0)
-ctx.SetFillColor(vgoRGBA(inTextRed,inTextGreen,inTextBlue, inTextAlpha))
-ctx.Text(btnx, btny, text)
-
-// test border
-if (0) {
-    ctx.BeginPath()
-    ctx.RoundedRect(x, y, w, h, 1.0)
-
-    ctx.SetStrokeColor(vgoRGBA(0, 0, 0, 180))
-    ctx.SetStrokeWidth(2.0)
-    ctx.Stroke()
-}
+ctx.SetFillColor(vgoRGBA(textRed,textGreen,textBlue, textAlpha))
+ctx.Text(left, top, text)
 
 ctx.EndFrame()

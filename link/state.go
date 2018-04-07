@@ -1,37 +1,36 @@
-package label
+package link
 
 type State struct {
 
-	labelId  string
-	label    string
-	fontsize int
+	linkId   string
 
-	hasBack                                                         bool
-	colorRed, colorGreen, colorBlue, colorAlpha                     int
-	back_colorRed, back_colorGreen, back_colorBlue, back_colorAlpha int
+	label    string
+
+	state 	 int
 
 	left, top, width, height int
 
 	text_width, text_height int
+
+	dirty bool
 }
 
-var g_stateByLabelId map[string] *State
+var g_stateByLinkId map[string] *State
 
-func ensureState(labelId string) *State {
+func ensureState(linkId string) *State {
 
-	state, ok := g_stateByLabelId[labelId]
+	state, ok := g_stateByLinkId[linkId]
 
 	if !ok {
 
 		state = &State{
 
-			labelId:  labelId,
+			linkId:   linkId,
 			label:    "OK",
 			width:    -1, // -1 indicates that user has not set, so use Text Metrics to use reasonable value.
-			height:   -1, // -1 indicates that user has not set, so use Text Metrics to use reasonable value.
-			fontsize: 36.0}
+			height:   -1 }
 
-		g_stateByLabelId[labelId] = state
+		g_stateByLinkId[linkId] = state
 	}
 
 	return state

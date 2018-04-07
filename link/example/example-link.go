@@ -20,9 +20,7 @@ func tick() {
 		bl.Pos(0,0)
 		bl.Dim(640, 480)
 
-		label.Id("first").
-			HasBack(true).
-				BackColor4i(255, 0, 0, 255).
+		link.Id("first").
 					Left(10).Top(10).
 						Label("Hello World!").
 							End()
