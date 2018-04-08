@@ -12,21 +12,29 @@ func init() {
 
 var g_state *State
 
-func Id(linkId string) *State {
+func On(linkId string,
+		onClick func(interface{})) *State {
 
 	g_state = ensureState(linkId)
+
+	g_state.onClick = onClick
 
 	div()
 
 	return g_state
 }
 
+func (state *State) Payload(payload string) *State {
+
+	state.payload = payload
+
+	return state
+}
+
 func div() {
 
 	labelId := g_state.linkId
 	state := g_state
-
-	//fmt.Println(state.state)
 
 	bl.Div()
 	{
@@ -91,7 +99,11 @@ func (state *State) Height(h int) (*State){
 	return state
 }
 
-func (state *State) End() (*State){
+func End() {
+	g_state.End()
+}
+
+func (state *State) End() {
 
 	bl.Pos(state.left, state.top)
 
@@ -110,8 +122,6 @@ func (state *State) End() (*State){
 	setup_hover(state)
 
 	bl.End()
-
-	return state
 }
 
 func calcDims(state *State) {

@@ -4,8 +4,6 @@ ctx.BeginFrame(w, h, 1.0)
 // 214,134,60, 250
 // 214; 234; 160; // green
 
-console.log(inState)
-
 if (inState == 0) {
 
     // default

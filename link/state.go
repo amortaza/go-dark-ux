@@ -13,6 +13,10 @@ type State struct {
 	text_width, text_height int
 
 	dirty bool
+
+	onClick func(interface{})
+
+	payload string
 }
 
 var g_stateByLinkId map[string] *State

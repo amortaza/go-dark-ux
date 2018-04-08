@@ -92,7 +92,7 @@ func End() {
 	{
 		docker.Use().AnchorLeft(5).AnchorRight(5).AnchorBottom(5).End()
 		vert.Use().Top(3).Spacing(5).End()
-		pack.Use().Vert().End()
+		pack.Use().VertOnly().End()
 
 		g_state.bodyHeight = bl.EnsureShadow().Height
 	}

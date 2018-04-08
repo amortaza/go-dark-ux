@@ -9,7 +9,7 @@ import (
 var ux_default *ux.Entity
 
 func init() {
-	ux_default = &ux.Entity{Filename:"github.com/amortaza/go-dark-ux/border/dark-border.js"}
+	ux_default = ux.NewEntity("github.com/amortaza/go-dark-ux/border/dark-border.js")
 }
 
 func Wire(r, g, b int) {

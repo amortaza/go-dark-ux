@@ -7,49 +7,50 @@ import (
 
 type State struct {
 
-	ButtonId                     string
+	buttonId string
 
-	IsHover                      bool
-	IsDown                       bool
-	IsEnabled                    bool
+	isHover   bool
+	isDown    bool
+	isEnabled bool
 
-	Label_                       string
+	label string
 
-	Left_, Top_, Width_, Height_ int
+	left, top, width, height int
+	padding int
 
-	OnClick                      func()
+	onClick func()
 
-	Dirty bool
+	dirty bool
 }
 
 // Shared variable across Div()/End()
-var gCurState *State
+var g_state *State
 
 func init() {
 
-	gStateByNode = make(map[string] *State)
+	g_stateByNode = make(map[string] *State)
 }
 
 func Id(postfixButtonId string) *State {
 	
 	buttonId := bl.Current_Node.Id + "/" + postfixButtonId
 
-	gCurState = ensureState(buttonId)
+	g_state = ensureState(buttonId)
 
 	div()
 
-	return gCurState
+	return g_state
 }
 
 func (s *State) On(cb func(interface{})) {
 
-	gCurState = s
+	g_state = s
 }
 
 func div() {
 
-	buttonId := gCurState.ButtonId
-	state := gCurState
+	buttonId := g_state.buttonId
+	state := g_state
 
 	bl.Div()
 	{
@@ -57,14 +58,23 @@ func div() {
 
 		bl.CustomRenderer(func(node *bl.Node) {
 
-			if !state.IsEnabled {
-				ux_disabled.Draw(0, 0, node.Width(), node.Height(), state.Label_)
+			if !state.isEnabled {
 
-			} else if state.IsDown {
-				ux_pressed.Draw(0,  0, node.Width(), node.Height(), state.Label_)
+				ux_disabled.SetInt("inPadding_left", state.padding)
+				ux_disabled.SetInt("inPadding_top", state.padding)
+				ux_disabled.Draw(0, 0, node.Width(), node.Height(), state.label)
+
+			} else if state.isDown {
+
+				ux_pressed.SetInt("inPadding_left", state.padding)
+				ux_pressed.SetInt("inPadding_top", state.padding)
+				ux_pressed.Draw(0,  0, node.Width(), node.Height(), state.label)
 
 			} else {
-				ux_default.Draw(0,  0, node.Width(), node.Height(), state.Label_)
+
+				ux_default.SetInt("inPadding_left", state.padding)
+				ux_default.SetInt("inPadding_top", state.padding)
+				ux_default.Draw(0,  0, node.Width(), node.Height(), state.label)
 			}
 
 		}, false)
@@ -73,35 +83,42 @@ func div() {
 
 func (s *State) Label(label string) (*State){
 
-	s.Label_ = label
+	s.label = label
+
+	return s
+}
+
+func (s *State) Padding(padding int) (*State){
+
+	s.padding = padding
 
 	return s
 }
 
 func (s *State) Left(left int) (*State){
 
-	s.Left_ = left
+	s.left = left
 
 	return s
 }
 
 func (s *State) Top(top int) (*State){
 
-	s.Top_ = top
+	s.top = top
 
 	return s
 }
 
 func (s *State) Width(w int) (*State){
 
-	s.Width_ = w
+	s.width = w
 
 	return s
 }
 
 func (s *State) Height(h int) (*State){
 
-	s.Height_ = h
+	s.height = h
 
 	return s
 }
@@ -115,58 +132,58 @@ func (s *State) End() (*State){
 
 func OnClick(cb func()) {
 
-	gCurState.OnClick = cb
+	g_state.onClick = cb
 }
 
 func End() {
 
-	state := gCurState
+	state := g_state
 
 /*	hover.On(func(i interface{}){
 		e := i.(*hover.Event)
 
 		if e.IsInEvent {
-			state.IsHover = true
+			state.isHover = true
 		} else {
-			state.IsHover = false
+			state.isHover = false
 		}
 	})*/
 
-	//fmt.Println(state.Left_, state.Top_, state.Width_, state.Height_)
+	//fmt.Println(state.left, state.top, state.width, state.height)
 
 	click.On_WithLifeCycle(
 
 		// click
 		func(i interface{}) {
 
-			state.IsDown = false
-			state.Dirty = true
+			state.isDown = false
+			state.dirty = true
 
-			if state.IsEnabled && state.OnClick != nil {
-				state.OnClick()
+			if state.isEnabled && state.onClick != nil {
+				state.onClick()
 			}
 		},
 
 		// on down
 		func(i interface{}) {
 
-			state.IsDown = true
-			state.Dirty = true
+			state.isDown = true
+			state.dirty = true
 		},
 
 		// on miss
 		func(i interface{}) {
 
-			state.IsDown = false
-			state.Dirty = true
+			state.isDown = false
+			state.dirty = true
 		} )
 
-	bl.Pos(state.Left_, state.Top_)
-	bl.Dim(state.Width_, state.Height_)
+	bl.Pos(state.left, state.top)
+	bl.Dim(state.width + state.padding * 2, state.height + state.padding * 2)
 
-	if state.Dirty {
+	if state.dirty {
 		bl.Dirty()
-		state.Dirty = false
+		state.dirty = false
 	}
 
 	bl.End()

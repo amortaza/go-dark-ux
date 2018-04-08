@@ -7,6 +7,7 @@ import (
 	"github.com/amortaza/go-hal-g5"
 	"github.com/amortaza/go-dark-ux"
 	"github.com/amortaza/go-dark-ux/link"
+	"github.com/amortaza/go-bellina-plugins/layout/docker"
 )
 
 func initialize() {
@@ -20,10 +21,11 @@ func tick() {
 		bl.Pos(0,0)
 		bl.Dim(640, 480)
 
-		link.Id("first").
-					Left(10).Top(10).
-						Label("Hello World!").
-							End()
+		link.On("first", nil).Label("Hello World!")
+
+		docker.Use().AnchorHoriz(10, 10).End()
+
+		link.End()
 
 	}
 	bl.End()

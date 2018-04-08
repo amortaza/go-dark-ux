@@ -1,20 +1,20 @@
 package button
 
-var gStateByNode  map[string] *State
+var g_stateByNode map[string] *State
 
 func ensureState(buttonId string) *State {
 
-	state, ok := gStateByNode[buttonId]
+	state, ok := g_stateByNode[buttonId]
 
 	if !ok {
 
-		state = &State{	ButtonId: buttonId,
-						Label_: "OK",
-						Width_: 95,
-						Height_: 30,
-						IsEnabled: true}
+		state = &State{	buttonId: buttonId,
+						label: "OK",
+						width: 95,
+						height: 30,
+						isEnabled: true}
 
-		gStateByNode[buttonId] = state
+		g_stateByNode[buttonId] = state
 	}
 
 	return state

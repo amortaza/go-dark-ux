@@ -33,15 +33,15 @@ ctx.SetFontFace("sans")
 
 ctx.SetTextAlign(vgoAlignLeft | vgoAlignMiddle)
 
-var btnx = w / 2 - sysGetTextWidth(text) / 2
-var btny = h / 2 - 1
+var text_x = w / 2 - sysGetTextWidth(text) / 2
+var text_y = h / 2 - 1
 
 ctx.SetFontBlur(1.0)
 ctx.SetFillColor(vgoRGBA(0, 0, 0, 255))
-ctx.Text(btnx, btny, text)
+ctx.Text(text_x, text_y, text)
 
 ctx.SetFontBlur(0.0)
 ctx.SetFillColor(vgoRGBA(255, 255, 255, 170))
-ctx.Text(btnx, btny, text)
+ctx.Text(text_x, text_y, text)
 
 ctx.EndFrame()

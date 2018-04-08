@@ -20,7 +20,6 @@ func Id(labelId string) *State {
 	g_state = ensureState(labelId)
 
 	g_state.Color1v(White)
-	g_state.BackColor1v(White)
 
 	div()
 
